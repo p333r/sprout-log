@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <%- include("partials/head") %>
+  <body class="container text-white">
+    <%- include("partials/header") %>
+    <main class="d-flex flex-column align-items-center">
+      <div id="counter" class="text-center">
+        <h2 class="text-dark">Counter</h2>
+        <div
+          id="jar-container"
+          class="d-flex flex-row justify-content-center flex-wrap gap-3 mt-4"
+        ></div>
+        <div
+          id="add-jar"
+          type="button"
+          class="btn btn-outline-success align-self-center pt-0 text-dark mt-3 fs-3"
+        >
+          Add jar
+        </div>
+
+        <div id="seed-container" class="mt-4">
+          <div id="seed-info" class="text-primary" style="display: none">
+            test test test <br />testtestsetset <br />esfsdskfjsdlfsdlkfsdklj
+          </div>
+
+          <div
+            id="seed-buttons"
+            class="btn-group btn-group-toggle gap-2 d-flex flex-row flex-wrap"
+            data-toggle="buttons"
+          ></div>
+        </div>
+      </div>
+
+      <div id="fridge">
+        <h2 class="text-dark mt-4">Fridge</h2>
+      </div>
+    </main>
+  </body>
+</html>
