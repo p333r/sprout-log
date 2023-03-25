@@ -1,0 +1,12 @@
+body {
+  font-size: 1.1rem;
+  font-family: 'Rubik','Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#jar-container h3 {
+  color: lightgreen;
+}
+
+td {
+  padding-right: 1rem;
+}
