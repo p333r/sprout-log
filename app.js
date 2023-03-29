@@ -1,12 +1,13 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-require("dotenv").config();
+var mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var authRouter = require("./routes/auth");
 
 var app = express();
 
@@ -20,8 +21,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Connect to MongoDB
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
