@@ -3,7 +3,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new mongoose.Schema({
   role: { type: String, required: true, default: "user" },
-  jars: { type: Array, required: false },
+  jars: { type: Array, required: true, default: [] },
 });
 
 // Adds username and password fields to the schema and adds methods to the model

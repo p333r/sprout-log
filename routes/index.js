@@ -80,7 +80,6 @@ router.get("/admin", function (req, res, next) {
     async function getData() {
       const users = await User.find({});
       const seeds = await Seed.find({});
-      console.log(users);
       res.render("admin", {
         title: "Admin",
         user: req.user,
@@ -92,6 +91,5 @@ router.get("/admin", function (req, res, next) {
     res.redirect("/login");
   }
 });
-
 
 module.exports = router;

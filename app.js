@@ -21,6 +21,7 @@ mongoose
 
 var indexRouter = require("./routes/index");
 var seedsRouter = require("./routes/seeds");
+var userRouter = require("./routes/user");
 
 var app = express();
 var store = new MongoDBStore(
@@ -60,6 +61,7 @@ app.use(passport.authenticate("session"));
 
 app.use("/", indexRouter);
 app.use("/seeds", seedsRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

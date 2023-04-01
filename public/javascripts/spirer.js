@@ -42,7 +42,7 @@ const seedArray = [];
 
 $(async function () {
   await getSeeds();
-  checkLocalStorage();
+  await checkDatabase();
   addSeedButtons();
   growDuration();
   digitalClock();
@@ -65,6 +65,23 @@ async function getSeeds() {
   return;
 }
 
+async function getJars() {
+  const response = await fetch("/user/jars");
+  const data = await response.json();
+  return data;
+}
+
+async function setJars() {
+  await fetch("/user/jars", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(jarArray),
+  });
+  return;
+}
+
 function addJar() {
   let highestJarId;
   if (jarArray.length > 0) {
@@ -74,7 +91,7 @@ function addJar() {
   }
   let jar = new Jar("jar" + (highestJarId + 1));
   jarArray.push(jar);
-  window.localStorage.setItem("jarArray", JSON.stringify(jarArray));
+  setJars(); // Save jarArray to database
   let jarHeading =
     jar.id.slice(0, 1).toUpperCase() +
     jar.id.slice(1, 3) +
@@ -129,36 +146,33 @@ function removeJar() {
       let index = jarArray.indexOf(jar);
       let removeJar = jarArray.splice(index, 1);
       $("#" + id).remove();
-      window.localStorage.setItem("jarArray", JSON.stringify(jarArray));
+      setJars(); // Save jarArray to database
     }
   } else {
     let index = jarArray.indexOf(jar);
     let removeJar = jarArray.splice(index, 1);
     $("#" + id).remove();
-    window.localStorage.setItem("jarArray", JSON.stringify(jarArray));
+    setJars(); // Save jarArray to database
   }
 }
 
-function checkLocalStorage() {
-  if (window.localStorage.length === 0) {
-    console.log("no storage");
-  } else {
-    const arr = JSON.parse(window.localStorage.getItem("jarArray"));
-    arr.forEach(function (item) {
-      jarArray.push(new Jar(item.id));
-      jarArray[jarArray.length - 1].empty = item.empty;
-      jarArray[jarArray.length - 1].seed = item.seed;
-      jarArray[jarArray.length - 1].fillTime = item.fillTime;
-      jarArray[jarArray.length - 1].wateringLog = item.wateringLog;
-      jarArray[jarArray.length - 1].growDuration = item.growDuration;
-    });
-    jarArray.forEach((item) => {
-      let jarHeading =
-        item.id.slice(0, 1).toUpperCase() +
-        item.id.slice(1, 3) +
-        " " +
-        item.id.slice(3, 4);
-      let jarHtml = `
+async function checkDatabase() {
+  const arr = await getJars();
+  arr.forEach(function (item) {
+    jarArray.push(new Jar(item.id));
+    jarArray[jarArray.length - 1].empty = item.empty;
+    jarArray[jarArray.length - 1].seed = item.seed;
+    jarArray[jarArray.length - 1].fillTime = item.fillTime;
+    jarArray[jarArray.length - 1].wateringLog = item.wateringLog;
+    jarArray[jarArray.length - 1].growDuration = item.growDuration;
+  });
+  jarArray.forEach((item) => {
+    let jarHeading =
+      item.id.slice(0, 1).toUpperCase() +
+      item.id.slice(1, 3) +
+      " " +
+      item.id.slice(3, 4);
+    let jarHtml = `
       <div id="${item.id}" class="card bg-secondary p-3">
       <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
         aria-label="Close">
@@ -188,10 +202,9 @@ function checkLocalStorage() {
       </div>
     </div>
     `;
-      $("#jar-container").append(jarHtml);
-      updateJar(item.id);
-    });
-  }
+    $("#jar-container").append(jarHtml);
+    updateJar(item.id);
+  });
 }
 
 function fillJar() {
@@ -273,7 +286,7 @@ function updateJar(id) {
       .text("");
   }
 
-  window.localStorage.setItem("jarArray", JSON.stringify(jarArray));
+  setJars(); // Save jarArray to database
 }
 
 function getTime() {
