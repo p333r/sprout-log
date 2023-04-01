@@ -38,21 +38,10 @@ let alertCount = 0;
 const jarArray = [];
 const msIn24h = 86400000;
 const msIn12h = msIn24h / 2;
-//NEW CODE
 const seedArray = [];
-
-//OLD CODE
-// const radish = new Seed("Radish", false, 30, "8-10 hours", "3-4 days");
-// const broccoli = new Seed("Broccoli", false, 30, "8-10 hours", "4-6 days");
-// const mungBean = new Seed("Mung Bean", false, 90, "8-10 hours", "3-4 days");
-// const redAdzuki = new Seed("Red Adzuki", false, 90, "8-10 hours", "3-4 days");
-// const greenPea = new Seed("Green Pea", false, 90, "8-10 hours", "3-5 days");
-
-//seedArray.push(radish, broccoli, mungBean, redAdzuki, greenPea);
 
 $(async function () {
   await getSeeds();
-  // await getJars();
   checkLocalStorage();
   addSeedButtons();
   growDuration();
@@ -69,7 +58,6 @@ $(async function () {
   $("#seed-buttons input").click(seedInfo);
 });
 
-//NEW CODE
 async function getSeeds() {
   const response = await fetch("/seeds");
   const data = await response.json();

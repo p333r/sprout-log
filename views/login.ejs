@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <body>
-    <form action="/login" method="post">
-      <section>
-        <label for="email">Email</label>
+  <%- include("partials/head") %>
+  <body class="container text-center">
+    <%- include("partials/header") %>
+    <form action="/login/password" method="post">
+      <div class="form-group">
+        <label for="username">Username</label>
         <input
           id="username"
-          name="email"
+          name="username"
           type="text"
           autocomplete="username"
           required
           autofocus
         />
-      </section>
-      <section>
+      </div>
+
+      <div class="form-group mt-3">
         <label for="current-password">Password</label>
         <input
           id="current-password"
@@ -22,8 +25,8 @@
           autocomplete="current-password"
           required
         />
-      </section>
-      <button type="submit">Sign in</button>
+      </div>
+      <button type="submit" class="mt-4">Sign in</button>
     </form>
   </body>
 </html>

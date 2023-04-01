@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <body>
+  <%- include("partials/head") %>
+  <body class="container text-center">
+    <%- include("partials/header") %>
     <form action="/signup" method="post">
       <section>
-        <label for="email">Email</label>
+        <label for="email">Username</label>
         <input
           id="username"
-          name="email"
+          name="username"
           type="text"
           autocomplete="username"
           required
           autofocus
         />
       </section>
-      <section>
-        <label for="current-password">Password</label>
+
+      <section class="mt-3">
+        <label for="password">Password</label>
         <input
-          id="current-password"
+          id="new-password"
           name="password"
           type="password"
-          autocomplete="current-password"
+          autocomplete="new-password"
           required
         />
       </section>
-      <button type="submit">Sign up</button>
+      <button class="mt-3" type="submit">Sign up</button>
     </form>
   </body>
 </html>
