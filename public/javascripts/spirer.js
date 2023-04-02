@@ -144,13 +144,13 @@ function removeJar() {
       confirm(`Are you sure you want to remove ${id} with all its contents?`)
     ) {
       let index = jarArray.indexOf(jar);
-      let removeJar = jarArray.splice(index, 1);
+      jarArray.splice(index, 1);
       $("#" + id).remove();
       setJars(); // Save jarArray to database
     }
   } else {
     let index = jarArray.indexOf(jar);
-    let removeJar = jarArray.splice(index, 1);
+    jarArray.splice(index, 1);
     $("#" + id).remove();
     setJars(); // Save jarArray to database
   }
