@@ -41,11 +41,11 @@ const msIn12h = msIn24h / 2;
 const seedArray = [];
 
 $(async function () {
+  digitalClock();
   await getSeeds();
   await checkDatabase();
   addSeedButtons();
   growDuration();
-  digitalClock();
   checkWaterTime();
   setInterval(digitalClock, 1000);
   setInterval(checkWaterTime, 600000);

@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
-const passportLocalMongoose = require("passport-local-mongoose");
+const dynamoose = require("dynamoose");
 
-const userSchema = new mongoose.Schema({
+const userSchema = new dynamoose.Schema({
   role: { type: String, required: true, default: "user" },
   jars: { type: Array, required: true, default: [] },
+  salt: { type: String, required: true },
+  password: { type: String, required: true },
+  hash: { type: String, required: true },
 });
-
-// Adds username and password fields to the schema and adds methods to the model
-userSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User", userSchema);

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const dynamoose = require("dynamoose");
 
-const seedSchema = new mongoose.Schema({
+const seedSchema = new dynamoose.Schema({
   name: { type: String, required: true },
   gelatinous: { type: Boolean, default: false },
   gramsPerJar: { type: Number, required: true },
@@ -8,4 +8,4 @@ const seedSchema = new mongoose.Schema({
   soakTime: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Seed", seedSchema);
+module.exports = dynamoose.model("Seed", seedSchema);
