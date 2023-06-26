@@ -4,40 +4,20 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var mongoose = require("mongoose");
 var passport = require("passport");
 var session = require("express-session");
-var MongoDBStore = require("connect-mongodb-session")(session);
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.DB_URL)
-  .then(() => {
-    console.log("Connected to database!");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 var indexRouter = require("./routes/index");
 var seedsRouter = require("./routes/seeds");
 var userRouter = require("./routes/user");
 
 var app = express();
-var store = new MongoDBStore(
-  {
-    uri: process.env.DB_URL,
-    collection: "sessions",
-  },
-  function (error) {
-    if (error) console.log(error);
-  }
-);
 
-// Catch errors
-store.on("error", function (error) {
-  console.log(error);
-});
+// dynamoose models
+const Seed = require("./models/seed");
+const User = require("./models/user");
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

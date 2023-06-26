@@ -8,4 +8,4 @@ const userSchema = new dynamoose.Schema({
   hash: { type: String, required: true },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = dynamoose.model("User", userSchema);
