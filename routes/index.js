@@ -5,9 +5,6 @@ const Seed = require("../models/seed");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
-// User.createStrategy() is a method provided by passport-local-mongoose
-passport.use(new LocalStrategy(User.authenticate()));
-
 // passport.serializeUser() and passport.deserializeUser() are methods provided by passport-local-mongoose
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
