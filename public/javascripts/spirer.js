@@ -42,18 +42,18 @@ const seedArray = [];
 
 $(async function () {
   digitalClock();
+  setInterval(digitalClock, 1000);
   await getSeeds();
   await checkDatabase();
   addSeedButtons();
   growDuration();
   checkWaterTime();
-  setInterval(digitalClock, 1000);
   setInterval(checkWaterTime, 600000);
   setInterval(growDuration, msIn12h);
   $("button:contains('Add seed')").click(fillJar);
   $("button:contains('Water')").click(waterJar);
   $("button:contains('Empty')").click(emptyJar);
-  $("#add-jar").click(addJar);
+  $("button:contains('Add jar')").click(addJar);
   $("button.btn-close").click(removeJar);
   $("#seed-buttons input").click(seedInfo);
 });
@@ -381,11 +381,11 @@ function addSeedButtons() {
       <input
       type="radio"
       name="options"
-      id="${item.name}"
-      value="${item.name}"
+      id="${item.key}"
+      value="${item.key}"
       autocomplete="off"
       />
-      ${item.name}
+      ${item.key}
       </label>`
     );
   });

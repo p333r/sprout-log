@@ -8,19 +8,20 @@
   },
   "dependencies": {
     "@cyclic.sh/dynamodb": "^0.0.34",
-    "aws-sdk": "^2.1404.0",
+    "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.6",
     "debug": "~4.3.4",
     "dotenv": "^16.3.1",
-    "dynamoose": "^3.2.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "express-session": "^1.17.3",
     "http-errors": "~2.0.0",
     "jsend": "^1.1.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "~1.10.0",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-jwt": "^4.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

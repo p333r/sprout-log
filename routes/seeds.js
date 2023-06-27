@@ -1,23 +1,30 @@
 const express = require("express");
 const router = express.Router();
-const Seed = require("../models/seed");
+const CyclicDB = require("@cyclic.sh/dynamodb");
+const passport = require("passport");
+const db = CyclicDB(process.env.CYCLIC_DB);
+const seeds = db.collection("seeds");
 
 router.get("/", async function (req, res, next) {
-  const seeds = await Seed.find();
-  res.json(seeds);
+  const allSeeds = await seeds.list().then((data) => data.results);
+  console.log(allSeeds);
+  res.json(allSeeds);
 });
 
 // Create new seed
-router.post("/", isAdmin, async function (req, res, next) {
-  const seed = new Seed({
-    name: req.body.name,
-    gramsPerJar: req.body.gramsPerJar,
-    growTime: req.body.growTime,
-    soakTime: req.body.soakTime,
-  });
-  await seed.save();
-  res.redirect("/admin");
-});
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false, failureRedirect: "/login" }),
+  isAdmin,
+  async function (req, res, next) {
+    await seeds.set(req.body.name, {
+      gramsPerJar: req.body.gramsPerJar,
+      growTime: req.body.growTime,
+      soakTime: req.body.soakTime,
+    });
+    res.redirect("/admin");
+  }
+);
 
 function isAdmin(req, res, next) {
   if (req.user?.role === "admin") {
