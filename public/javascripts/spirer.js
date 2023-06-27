@@ -290,7 +290,7 @@ function updateJar(id) {
 }
 
 function getTime() {
-  return new Date().toLocaleString("nb-NO", {
+  return new Date().toLocaleString("en-US", {
     dateStyle: "short",
     timeStyle: "short",
   });
@@ -298,10 +298,10 @@ function getTime() {
 
 function digitalClock() {
   let date = new Date();
-  let day = date.toLocaleString("nb-NO", {
+  let day = date.toLocaleString("en-US", {
     weekday: "long",
   });
-  let timeString = date.toLocaleString("nb-NO", {
+  let timeString = date.toLocaleString("en-US", {
     dateStyle: "long",
     timeStyle: "short",
   });
@@ -381,11 +381,11 @@ function addSeedButtons() {
       <input
       type="radio"
       name="options"
-      id="${item.key}"
-      value="${item.key}"
+      id="${item.name}"
+      value="${item.name}"
       autocomplete="off"
       />
-      ${item.key}
+      ${item.name}
       </label>`
     );
   });

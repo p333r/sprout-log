@@ -15,8 +15,12 @@
       <div class="col-lg-6">
         <h2>Seeds</h2>
         <ul class="text-dark">
-          <% seeds.forEach((seed) => { %>
-          <li><%= seed.key %></li>
+          <% function deleteSeed() { window.alert("deleted")}
+          seeds.forEach((seed) => { %>
+          <li>
+            <%= seed.key %>
+            <button type="button" id="<%= seed.key %>">x</button>
+          </li>
           <% }); %>
         </ul>
 
@@ -29,6 +33,15 @@
               name="name"
               id="name"
               placeholder="Name - example: 'Broccoli'"
+            />
+          </div>
+          <div class="col-6 mt-3">
+            <input
+              type="text"
+              class="form-control"
+              name="gelatinous"
+              id="gelatinous"
+              placeholder="Gelatinous - example: 'Yes' or 'No'"
             />
           </div>
           <div class="col-6 mt-3">

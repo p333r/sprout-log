@@ -9,33 +9,31 @@ class Seed {
     this.gramsPerJar = gramsPerJar;
     this.growTime = growTime;
     this.soakTime = soakTime;
+  }
 
-    this.save = async function () {
-      await seeds.set(this.name, {
-        gelatinous: this.gelatinous,
-        gramsPerJar: this.gramsPerJar,
-        growTime: this.growTime,
-        soakTime: this.soakTime,
-      });
-    };
+  async save() {
+    await seeds.set(this.name, {
+      gelatinous: this.gelatinous,
+      gramsPerJar: this.gramsPerJar,
+      growTime: this.growTime,
+      soakTime: this.soakTime,
+    });
+  }
 
-    this.update = async function () {
-      await seeds.set(this.name, {
-        gelatinous: this.gelatinous,
-        gramsPerJar: this.gramsPerJar,
-        growTime: this.growTime,
-        soakTime: this.soakTime,
-      });
-    };
+  async delete() {
+    await seeds.delete(this.name);
+  }
 
-    this.delete = async function () {
-      await Seed.findByIdAndDelete(this._id);
-    };
+  // Get seed from database and update props of seed instance
+  async get() {
+    const { gelatinous, gramsPerJar, growTime, soakTime } = await seeds
+      .get(this.name)
+      .then((seed) => seed.props);
 
-    this.get = async function () {
-      const seed = await Seed.findById(this._id);
-      return seed;
-    };
+    this.gelatinous = gelatinous;
+    this.gramsPerJar = gramsPerJar;
+    this.growTime = growTime;
+    this.soakTime = soakTime;
   }
 }
 

@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const CyclicDB = require("@cyclic.sh/dynamodb");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
+const { jwtAuth } = require("../services/helpers");
 
 // cookieJwtExtractor extracts the JWT from the cookie
 const cookieJwtExtractor = (req) => {
@@ -27,34 +28,32 @@ const opts = {
 passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
     try {
-      const user = await users
-        .get(jwt_payload.username)
-        .then((user) => user?.props);
-      if (!user) {
+      const exist = await users.get(jwt_payload.username);
+      if (!exist) {
         return done(null, false);
       }
+      const user = {
+        username: jwt_payload.username,
+        role: jwt_payload.role,
+      };
       return done(null, user);
     } catch (err) {
-      return done(err);
+      return done(err, false);
     }
   })
 );
 
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false, failureRedirect: "/login" }),
-  async function (req, res, next) {
-    const role = req.user.role;
-    if (role === "admin") {
-      res.redirect("/admin");
-    } else {
-      res.render("index", {
-        title: req.user.username,
-        user: req.user,
-      });
-    }
+router.get("/", jwtAuth, async function (req, res, next) {
+  const role = req.user.role;
+  if (role === "admin") {
+    res.redirect("/admin");
+  } else {
+    res.render("index", {
+      title: req.user.username,
+      user: req.user,
+    });
   }
-);
+});
 
 router.get("/signup", function (req, res, next) {
   res.render("signup", { title: "Sign up", user: req.user });
@@ -109,7 +108,9 @@ router.post("/signup", async function (req, res, next) {
 // Login user
 router.post("/login/password", async function (req, res, next) {
   const { username, password } = req.body;
+  //TODO: Add verification for username and password
   const user = await users.get(username).then((user) => user.props);
+  // TODO: Add verification for user
   console.log(user);
   bcrypt.compare(password, user.passwordHash, function (err, result) {
     if (err) {
@@ -124,7 +125,7 @@ router.post("/login/password", async function (req, res, next) {
       const token = jwt.sign(
         { username: username, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: "300000" }
+        { expiresIn: "24h" }
       );
 
       res.cookie("jwt", token, {
