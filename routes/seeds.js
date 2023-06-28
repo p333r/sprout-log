@@ -8,19 +8,19 @@ const Seed = require("../models/seed");
 const { jwtAuth } = require("../services/helpers");
 
 router.get("/", async function (req, res, next) {
-  const allSeeds = await seeds.list().then((data) => data.results);
-  const seedsMap = allSeeds.map((seed) => seed.key);
-  console.log(seedsMap);
   const seedArray = [];
-  await async function () { seedsMap.forEach(async (seed) => {
-    let item = new Seed(seed);
-    console.log(item);
-    await item.get();
-    seedArray.push(item);
-  });
-  };
-  console.log("11111111111111111", seedArray);
-  res.json(seedArray);
+  const data = await seeds.list();
+  const results = data.results;
+  const keys = results.map((result) => result.key);
+  await Promise.all(
+    keys.map(async (key) => {
+      let seed = await seeds.get(key);
+      const { gelatinous, gramsPerJar, growTime, soakTime } = seed.props;
+      seed = new Seed(key, gelatinous, gramsPerJar, growTime, soakTime);
+      seedArray.push(seed);
+    })
+  );
+  res.status(200).json(seedArray);
 });
 
 // Create new seed
