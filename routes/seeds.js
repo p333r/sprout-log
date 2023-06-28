@@ -10,16 +10,15 @@ const { jwtAuth } = require("../services/helpers");
 router.get("/", async function (req, res, next) {
   const seedArray = [];
   const data = await seeds.list();
-  const results = data.results;
-  const keys = results.map((result) => result.key);
+  const keys = data.results.map((result) => result.key);
   await Promise.all(
     keys.map(async (key) => {
-      let seed = await seeds.get(key);
-      const { gelatinous, gramsPerJar, growTime, soakTime } = seed.props;
-      seed = new Seed(key, gelatinous, gramsPerJar, growTime, soakTime);
+      let seed = new Seed(key);
+      seed = await seed.get();
       seedArray.push(seed);
     })
   );
+  console.log(seedArray);
   res.status(200).json(seedArray);
 });
 
@@ -34,11 +33,12 @@ router.post("/", jwtAuth, isAdmin, async function (req, res, next) {
 // Delete seed
 router.delete(
   "/seeds/:name",
-  passport.authenticate("jwt", { session: false, failureRedirect: "/login" }),
+  jwtAuth,
   isAdmin,
   async function (req, res, next) {
     const seed = new Seed(req.params.name);
     await seed.delete();
+    console.info(`Deleted seed ${req.params.name}`);
     res.redirect("/admin");
   }
 );

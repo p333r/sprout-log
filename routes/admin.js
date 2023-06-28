@@ -24,8 +24,6 @@ router.get(
           users: allUsers,
           seeds: allSeeds,
         });
-        console.log(allSeeds);
-        console.log(allUsers);
       }
     } else {
       res.redirect("/login");

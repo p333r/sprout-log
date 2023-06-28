@@ -101,7 +101,7 @@ router.post("/signup", async function (req, res, next) {
 
     bcrypt.hash(password, 10, function (err, hash) {
       if (err) {
-        console.log(err);
+        console.info(err);
         return res.render("signup", {
           info: "Sorry. Something went wrong. Please try again.",
           user: user,
@@ -122,7 +122,7 @@ router.post("/signup", async function (req, res, next) {
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 });
     res.redirect("/");
   } catch (err) {
-    console.log(err);
+    console.info(err);
     res.status(500).jsend.error(err);
   }
 });
@@ -133,10 +133,9 @@ router.post("/login/password", async function (req, res, next) {
   //TODO: Add verification for username and password
   const user = await users.get(username).then((user) => user.props);
   // TODO: Add verification for user
-  console.log(user);
   bcrypt.compare(password, user.passwordHash, function (err, result) {
     if (err) {
-      console.log(err);
+      console.info(err);
       return res.render("login", {
         info: "Sorry. Something went wrong. Please try again.",
         user: user,

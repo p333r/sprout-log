@@ -2,14 +2,14 @@
   <nav>
     <ul class="nav justify-content-center">
       <li class="nav-item">
-        <% if (user?.role === "admin") {%>
+        <!-- <% if (user?.role === "admin") {%>
           <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin">Admin</a>
           </li>
-          <% } %>
+          <% } %> -->
         <% if (user) {%>
         <a class="nav-link" href="/logout">Logout</a>
         <% } else { %>

@@ -9,7 +9,6 @@ const { jwtAuth } = require("../services/helpers");
 
 router.get("/", jwtAuth, async function (req, res, next) {
   const user = await users.get(req.user.username);
-  console.log(user.username);
   res.render("index", { title: user.username });
 });
 

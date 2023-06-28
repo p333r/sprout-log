@@ -26,7 +26,7 @@ class Seed {
 
   // Get seed from database and update props of seed instance
   async get() {
-    seeds
+    return seeds
       .get(this.name)
       .then((seed) => seed.props)
       .then((props) => {
