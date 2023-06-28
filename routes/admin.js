@@ -8,28 +8,6 @@ const bcrypt = require("bcrypt");
 const { all } = require("./auth");
 const passport = require("passport");
 
-// Create admin user if not exists
-users
-  .get("admin")
-  .then((user) => {
-    if (!user) {
-      bcrypt.hash(process.env.ADMIN_PASSWORD, 10, function (err, hash) {
-        if (err) {
-          console.info(err);
-        } else {
-          users.set("admin", {
-            username: "admin",
-            passwordHash: hash,
-            role: "admin",
-          });
-        }
-      });
-    }
-  })
-  .catch((err) => {
-    console.info(err);
-  });
-
 // Admin page
 router.get(
   "/",
