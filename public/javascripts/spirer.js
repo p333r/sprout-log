@@ -103,7 +103,7 @@ function addJar() {
     aria-label="Close">
   </button>
   <h2>${jarHeading}</h2>
-  <progress id="jar-progress" value="0" max="10"></progress>
+  <progress id="jar-progress" value="0.5" max="10"></progress>
   <h3 class="fs-1">(empty)</h3>
   <h4></h4>
   <table class="table-responsive m-2">
@@ -178,7 +178,7 @@ async function checkDatabase() {
         aria-label="Close">
       </button>
       <h2>${jarHeading}</h2>
-      <progress id="jar-progress" value="0" max="10"></progress>
+      <progress id="jar-progress" value="0.5" max="10"></progress>
       <h3 class="fs-1">(empty)</h3>
       <h4></h4>
       <table class="table-responsive m-2">
@@ -358,14 +358,14 @@ function growDuration() {
         return Math.ceil(avg);
       };
       element.growDuration = Math.floor((msNow - startTime) / msIn24h);
-      if (element.growDuration == 1) {
+      if (element.growDuration === 1) {
         element.growDuration += " day";
       } else {
         element.growDuration += " days";
       }
       growDuration = parseInt(element.growDuration);
-      if (Number.isNaN(growDuration)) {
-        growDuration = 0;
+      if (Number.isNaN(growDuration) || growDuration === 0) {
+        growDuration = 0.1;
       }
       $("#" + element.id + " progress")
         .attr("value", growDuration)
