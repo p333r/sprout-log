@@ -9,7 +9,29 @@ const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
 const { jwtAuth } = require("../services/helpers");
 
-// cookieJwtExtractor extracts the JWT from the cookie
+// Create admin user if not exists
+users
+  .get("admin")
+  .then((user) => {
+    if (!user) {
+      bcrypt.hash(process.env.ADMIN_PASSWORD, 10, function (err, hash) {
+        if (err) {
+          console.info(err);
+        } else {
+          users.set("admin", {
+            username: "admin",
+            passwordHash: hash,
+            role: "admin",
+          });
+        }
+      });
+    }
+  })
+  .catch((err) => {
+    console.info(err);
+  });
+
+// cookieJwtExtractor function, extracts the JWT from the cookie
 const cookieJwtExtractor = (req) => {
   let token = null;
   if (req && req.cookies) {
