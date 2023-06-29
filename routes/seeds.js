@@ -24,6 +24,9 @@ router.get("/", async function (req, res, next) {
 // Create new seed
 router.post("/", jwtAuth, isAdmin, async function (req, res, next) {
   const { name, gelatinous, gramsPerJar, growTime, soakTime } = req.body;
+  if (!name || !gelatinous || !gramsPerJar || !growTime || !soakTime) {
+    return res.redirect("back");
+  }
   const seed = new Seed(name, gelatinous, gramsPerJar, growTime, soakTime);
   await seed.save();
   res.redirect("back");
