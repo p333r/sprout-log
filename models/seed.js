@@ -3,7 +3,7 @@ const db = CyclicDB(process.env.CYCLIC_DB);
 const seeds = db.collection("seeds");
 
 class Seed {
-  constructor(name, gelatinous, gramsPerJar, growTime, soakTime) {
+  constructor(name = "none", gelatinous, gramsPerJar, growTime, soakTime) {
     this.name = name;
     this.gelatinous = gelatinous;
     this.gramsPerJar = gramsPerJar;

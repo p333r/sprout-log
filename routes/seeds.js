@@ -26,21 +26,15 @@ router.post("/", jwtAuth, isAdmin, async function (req, res, next) {
   const { name, gelatinous, gramsPerJar, growTime, soakTime } = req.body;
   const seed = new Seed(name, gelatinous, gramsPerJar, growTime, soakTime);
   await seed.save();
-  res.redirect("/admin");
+  res.redirect("back");
 });
 
 // Delete seed
-router.delete(
-  "/seeds/:name",
-  jwtAuth,
-  isAdmin,
-  async function (req, res, next) {
-    const seed = new Seed(req.params.name);
-    await seed.delete();
-    console.info(`Deleted seed ${req.params.name}`);
-    res.redirect("/admin");
-  }
-);
+router.delete("/:name", jwtAuth, isAdmin, async function (req, res, next) {
+  const seed = new Seed(req.params.name);
+  await seed.delete();
+  res.status(200).json({ message: `Deleted seed ${req.params.name}` });
+});
 
 function isAdmin(req, res, next) {
   if (req.user?.role === "admin") {

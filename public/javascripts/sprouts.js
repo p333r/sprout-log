@@ -31,8 +31,8 @@ const msIn12h = msIn24h / 2;
 const seedArray = [];
 
 $(async function () {
-  digitalClock();
-  setInterval(digitalClock, 1000);
+  clock();
+  setInterval(clock, 1000);
   await getSeeds();
   await checkDatabase();
   addSeedButtons();
@@ -286,7 +286,7 @@ function getTime() {
   });
 }
 
-function digitalClock() {
+function clock() {
   let date = new Date();
   let day = date.toLocaleString("en-US", {
     weekday: "long",
