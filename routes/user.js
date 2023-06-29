@@ -1,28 +1,38 @@
 const express = require("express");
 const router = express.Router();
+const CyclicDB = require("@cyclic.sh/dynamodb");
+const passport = require("passport");
+const db = CyclicDB(process.env.CYCLIC_DB);
+const users = db.collection("users");
 const User = require("../models/user");
+const { jwtAuth } = require("../services/helpers");
 
-router.get("/", async function (req, res, next) {
-  res.render("index", { title: "Express" });
+router.get("/", jwtAuth, async function (req, res, next) {
+  const user = await users.get(req.user.username);
+  res.render("index", { title: user.username });
 });
 
-router.get("/jars", async function (req, res, next) {
-  if (req.user) {
-    const user = await User.findById(req.user._id);
-    res.json(user.jars);
+router.get("/jars", jwtAuth, async function (req, res, next) {
+  const username = req.user.username;
+  if (username) {
+    const jars = await users.get(username).then((user) => user.props.jars);
+    res.json(jars);
   } else {
     res.json([]);
   }
 });
 
-router.post("/jars", async function (req, res, next) {
-  if (req.user) {
-    const user = await User.findById(req.user._id);
-    user.jars = req.body;
+router.post("/jars", jwtAuth, async function (req, res, next) {
+  try {
+    const username = req.user.username;
+    const jars = req.body;
+    const user = new User(username);
+    await user.get();
+    user.jars = jars;
     await user.save();
     res.redirect("/");
-  } else {
-    res.redirect("/login");
+  } catch (err) {
+    res.redirect("/login", { error: err });
   }
 });
 
