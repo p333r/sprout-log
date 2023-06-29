@@ -24,16 +24,6 @@ class Jar {
   }
 }
 
-class Seed {
-  constructor(name, gelationous, gramsPerJar, soakTime, growTime) {
-    this.name = name;
-    this.gelationous = gelationous;
-    this.gramsPerJar = gramsPerJar;
-    this.soakTime = soakTime;
-    this.growTime = growTime;
-  }
-}
-
 let alertCount = 0;
 const jarArray = [];
 const msIn24h = 86400000;
@@ -71,7 +61,7 @@ async function getJars() {
   return data;
 }
 
-async function setJars() {
+async function saveJars() {
   await fetch("/user/jars", {
     method: "POST",
     headers: {
@@ -91,7 +81,7 @@ function addJar() {
   }
   let jar = new Jar("jar" + (highestJarId + 1));
   jarArray.push(jar);
-  setJars(); // Save jarArray to database
+  saveJars(); // Save jarArray to database
   let jarHeading =
     jar.id.slice(0, 1).toUpperCase() +
     jar.id.slice(1, 3) +
@@ -146,13 +136,13 @@ function removeJar() {
       let index = jarArray.indexOf(jar);
       jarArray.splice(index, 1);
       $("#" + id).remove();
-      setJars(); // Save jarArray to database
+      saveJars(); // Save jarArray to database
     }
   } else {
     let index = jarArray.indexOf(jar);
     jarArray.splice(index, 1);
     $("#" + id).remove();
-    setJars(); // Save jarArray to database
+    saveJars(); // Save jarArray to database
   }
 }
 
@@ -286,7 +276,7 @@ function updateJar(id) {
       .text("");
   }
 
-  setJars(); // Save jarArray to database
+  saveJars(); // Save jarArray to database
 }
 
 function getTime() {

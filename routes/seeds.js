@@ -18,7 +18,6 @@ router.get("/", async function (req, res, next) {
       seedArray.push(seed);
     })
   );
-  console.log(seedArray);
   res.status(200).json(seedArray);
 });
 
