@@ -254,9 +254,11 @@ function updateJar(id) {
   let jar = jarArray.find((item) => item.id === id);
 
   $("#" + id + " h3").text(jar.seed.name);
-  $("#" + id + " h4").html(
-    `Growing for <span class="text-info">${jar.growDuration}</span>`
-  );
+  if (jar.empty === false) {
+    $("#" + id + " h4").html(
+      `Growing for <span class="text-info">${jar.growDuration}</span>`
+    );
+  }
   $("#" + id + " td:contains('Started')")
     .next()
     .text(jar.fillTime);
