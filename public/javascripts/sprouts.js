@@ -356,7 +356,7 @@ function growDuration() {
       }
       growDuration = parseInt(element.growDuration);
       if (Number.isNaN(growDuration) || growDuration === 0) {
-        growDuration = 0.2;
+        growDuration = 0.1;
       }
       $("#" + element.id + " progress")
         .attr("value", growDuration)
