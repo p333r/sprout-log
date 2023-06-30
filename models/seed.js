@@ -1,11 +1,42 @@
-const mongoose = require("mongoose");
+const CyclicDB = require("@cyclic.sh/dynamodb");
+const db = CyclicDB(process.env.CYCLIC_DB);
+const seeds = db.collection("seeds");
 
-const seedSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  gelatinous: { type: Boolean, default: false },
-  gramsPerJar: { type: Number, required: true },
-  growTime: { type: String, required: true },
-  soakTime: { type: String, required: true },
-});
+class Seed {
+  constructor(name, gelatinous, gramsPerJar, growTime, soakTime) {
+    this.name = name;
+    this.gelatinous = gelatinous;
+    this.gramsPerJar = gramsPerJar;
+    this.growTime = growTime;
+    this.soakTime = soakTime;
+  }
 
-module.exports = mongoose.model("Seed", seedSchema);
+  async save() {
+    seeds.set(this.name, {
+      gelatinous: this.gelatinous,
+      gramsPerJar: this.gramsPerJar,
+      growTime: this.growTime,
+      soakTime: this.soakTime,
+    });
+  }
+
+  async delete() {
+    seeds.delete(this.name);
+  }
+
+  // Get seed from database and update props of seed instance
+  async get() {
+    return seeds
+      .get(this.name)
+      .then((seed) => seed.props)
+      .then((props) => {
+        this.gelatinous = props.gelatinous;
+        this.gramsPerJar = props.gramsPerJar;
+        this.growTime = props.growTime;
+        this.soakTime = props.soakTime;
+        return this;
+      });
+  }
+}
+
+module.exports = Seed;

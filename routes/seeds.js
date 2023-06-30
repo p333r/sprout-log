@@ -1,22 +1,42 @@
 const express = require("express");
 const router = express.Router();
+const CyclicDB = require("@cyclic.sh/dynamodb");
+const passport = require("passport");
+const db = CyclicDB(process.env.CYCLIC_DB);
+const seeds = db.collection("seeds");
 const Seed = require("../models/seed");
+const { jwtAuth } = require("../services/helpers");
 
 router.get("/", async function (req, res, next) {
-  const seeds = await Seed.find();
-  res.json(seeds);
+  const seedArray = [];
+  const data = await seeds.list();
+  const keys = data.results.map((result) => result.key);
+  await Promise.all(
+    keys.map(async (key) => {
+      let seed = new Seed(key);
+      seed = await seed.get();
+      seedArray.push(seed);
+    })
+  );
+  res.status(200).json(seedArray);
 });
 
 // Create new seed
-router.post("/", isAdmin, async function (req, res, next) {
-  const seed = new Seed({
-    name: req.body.name,
-    gramsPerJar: req.body.gramsPerJar,
-    growTime: req.body.growTime,
-    soakTime: req.body.soakTime,
-  });
+router.post("/", jwtAuth, isAdmin, async function (req, res, next) {
+  const { name, gelatinous, gramsPerJar, growTime, soakTime } = req.body;
+  if (!name || !gelatinous || !gramsPerJar || !growTime || !soakTime) {
+    return res.redirect("back");
+  }
+  const seed = new Seed(name, gelatinous, gramsPerJar, growTime, soakTime);
   await seed.save();
-  res.redirect("/admin");
+  res.redirect("back");
+});
+
+// Delete seed
+router.delete("/:name", jwtAuth, isAdmin, async function (req, res, next) {
+  const seed = new Seed(req.params.name);
+  await seed.delete();
+  res.status(200).json({ message: `Deleted seed ${req.params.name}` });
 });
 
 function isAdmin(req, res, next) {

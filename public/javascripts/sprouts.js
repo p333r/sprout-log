@@ -24,16 +24,6 @@ class Jar {
   }
 }
 
-class Seed {
-  constructor(name, gelationous, gramsPerJar, soakTime, growTime) {
-    this.name = name;
-    this.gelationous = gelationous;
-    this.gramsPerJar = gramsPerJar;
-    this.soakTime = soakTime;
-    this.growTime = growTime;
-  }
-}
-
 let alertCount = 0;
 const jarArray = [];
 const msIn24h = 86400000;
@@ -41,19 +31,19 @@ const msIn12h = msIn24h / 2;
 const seedArray = [];
 
 $(async function () {
+  clock();
+  setInterval(clock, 1000);
   await getSeeds();
   await checkDatabase();
   addSeedButtons();
   growDuration();
-  digitalClock();
   checkWaterTime();
-  setInterval(digitalClock, 1000);
   setInterval(checkWaterTime, 600000);
   setInterval(growDuration, msIn12h);
   $("button:contains('Add seed')").click(fillJar);
   $("button:contains('Water')").click(waterJar);
   $("button:contains('Empty')").click(emptyJar);
-  $("#add-jar").click(addJar);
+  $("button:contains('Add jar')").click(addJar);
   $("button.btn-close").click(removeJar);
   $("#seed-buttons input").click(seedInfo);
 });
@@ -71,7 +61,7 @@ async function getJars() {
   return data;
 }
 
-async function setJars() {
+async function saveJars() {
   await fetch("/user/jars", {
     method: "POST",
     headers: {
@@ -91,7 +81,7 @@ function addJar() {
   }
   let jar = new Jar("jar" + (highestJarId + 1));
   jarArray.push(jar);
-  setJars(); // Save jarArray to database
+  saveJars(); // Save jarArray to database
   let jarHeading =
     jar.id.slice(0, 1).toUpperCase() +
     jar.id.slice(1, 3) +
@@ -103,7 +93,7 @@ function addJar() {
     aria-label="Close">
   </button>
   <h2>${jarHeading}</h2>
-  <progress id="jar-progress" value="0" max="10"></progress>
+  <progress id="jar-progress" value="0.5" max="10"></progress>
   <h3 class="fs-1">(empty)</h3>
   <h4></h4>
   <table class="table-responsive m-2">
@@ -146,13 +136,13 @@ function removeJar() {
       let index = jarArray.indexOf(jar);
       jarArray.splice(index, 1);
       $("#" + id).remove();
-      setJars(); // Save jarArray to database
+      saveJars(); // Save jarArray to database
     }
   } else {
     let index = jarArray.indexOf(jar);
     jarArray.splice(index, 1);
     $("#" + id).remove();
-    setJars(); // Save jarArray to database
+    saveJars(); // Save jarArray to database
   }
 }
 
@@ -178,7 +168,7 @@ async function checkDatabase() {
         aria-label="Close">
       </button>
       <h2>${jarHeading}</h2>
-      <progress id="jar-progress" value="0" max="10"></progress>
+      <progress id="jar-progress" value="0.5" max="10"></progress>
       <h3 class="fs-1">(empty)</h3>
       <h4></h4>
       <table class="table-responsive m-2">
@@ -286,22 +276,22 @@ function updateJar(id) {
       .text("");
   }
 
-  setJars(); // Save jarArray to database
+  saveJars(); // Save jarArray to database
 }
 
 function getTime() {
-  return new Date().toLocaleString("nb-NO", {
+  return new Date().toLocaleString("en-US", {
     dateStyle: "short",
     timeStyle: "short",
   });
 }
 
-function digitalClock() {
+function clock() {
   let date = new Date();
-  let day = date.toLocaleString("nb-NO", {
+  let day = date.toLocaleString("en-US", {
     weekday: "long",
   });
-  let timeString = date.toLocaleString("nb-NO", {
+  let timeString = date.toLocaleString("en-US", {
     dateStyle: "long",
     timeStyle: "short",
   });
@@ -358,14 +348,14 @@ function growDuration() {
         return Math.ceil(avg);
       };
       element.growDuration = Math.floor((msNow - startTime) / msIn24h);
-      if (element.growDuration == 1) {
+      if (element.growDuration === 1) {
         element.growDuration += " day";
       } else {
         element.growDuration += " days";
       }
       growDuration = parseInt(element.growDuration);
-      if (Number.isNaN(growDuration)) {
-        growDuration = 0;
+      if (Number.isNaN(growDuration) || growDuration === 0) {
+        growDuration = 0.1;
       }
       $("#" + element.id + " progress")
         .attr("value", growDuration)
