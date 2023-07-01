@@ -370,7 +370,7 @@ function growDuration() {
 function addSeedButtons() {
   seedArray.forEach((item) => {
     $("#seed-buttons").append(
-      `<label class="btn btn-warning rounded-pill">
+      `<label class="btn btn-warning rounded-pill flex-grow-0">
       <input
       type="radio"
       name="options"
