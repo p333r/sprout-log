@@ -94,7 +94,7 @@ function addJar() {
     aria-label="Close">
   </button>
   <h2>${jarHeading}</h2>
-  <progress id="jar-progress" value="0" max="10"></progress>
+  <progress id="jar-progress" value="0" max="100"></progress>
   <h3 class="fs-1">(empty)</h3>
   <h4></h4>
   <table class="table-responsive m-2">
@@ -163,13 +163,18 @@ async function checkDatabase() {
       item.id.slice(1, 3) +
       " " +
       item.id.slice(3, 4);
+    if (item.empty === false) {
+      $("#" + item.id + " h4").html(
+        `Growing for <span class="text-info">${item.growDuration}</span>`
+      );
+    }
     let jarHtml = `
       <div id="${item.id}" class="card bg-secondary p-3">
       <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
         aria-label="Close">
       </button>
       <h2>${jarHeading}</h2>
-      <progress id="jar-progress" value="0" max="10"></progress>
+      <progress id="jar-progress" value="0" max="100"></progress>
       <h3 class="fs-1">(empty)</h3>
       <h4></h4>
       <table class="table-responsive m-2">
@@ -336,7 +341,7 @@ function convertDate(date) {
 }
 
 function growDuration() {
-  let msNow = new Date().getTime(); //gets current time in ms
+  const msNow = new Date().getTime(); //gets current time in ms
   let startTime;
   let avgGrowTime;
   let growDuration;
@@ -345,24 +350,40 @@ function growDuration() {
       //converts to GMT milliseconds
       startTime = Date.parse(convertDate(element.fillTime));
       avgGrowTime = function () {
-        let a = parseInt(element.seed.growTime.slice(0, 1));
-        let b = parseInt(element.seed.growTime.slice(2, 3));
-        let avg = (a + b) / 2;
-        return Math.ceil(avg);
+        const numbers = element.seed.growTime.match(/\d+/g);
+        if (numbers.length === 1) {
+          return numbers[0];
+        } else {
+          let num1 = parseInt(numbers[0]);
+          let num2 = parseInt(numbers[1]);
+          let avg = (num1 + num2) / 2;
+          return Math.ceil(avg);
+        }
       };
-      element.growDuration = Math.floor((msNow - startTime) / msIn24h);
-      if (element.growDuration === 1) {
-        element.growDuration += " day";
+      growDuration = (msNow - startTime) / 3600000; //converts to hours
+      if (parseInt(growDuration) === 1) {
+        element.growDuration = parseInt(growDuration) + " hour";
+        growDuration = growDuration / 24; //converts to days
+      } else if (growDuration < 24) {
+        element.growDuration = parseInt(growDuration) + " hours";
+        growDuration = growDuration / 24; //converts to days
       } else {
-        element.growDuration += " days";
+        growDuration = growDuration / 24; //converts to days
+        if (parseInt(growDuration) === 1) {
+          element.growDuration = parseInt(growDuration) + " day";
+        } else {
+          element.growDuration = parseInt(growDuration) + " days";
+        }
       }
-      growDuration = parseInt(element.growDuration);
-      if (Number.isNaN(growDuration) || growDuration === 0) {
-        growDuration = 0.1;
+      const twoPercent = (avgGrowTime() / 100) * 2;
+      if (Number.isNaN(growDuration) || growDuration < twoPercent) {
+        growDuration = twoPercent;
       }
-      $("#" + element.id + " progress")
-        .attr("value", growDuration)
-        .attr("max", avgGrowTime);
+
+      const growPercent = (parseFloat(growDuration) / avgGrowTime()) * 100;
+      console.log(growPercent);
+
+      $("#" + element.id + " progress").attr("value", parseInt(growPercent));
     }
   });
 }
