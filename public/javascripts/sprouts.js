@@ -76,18 +76,15 @@ async function saveJars() {
 function addJar() {
   let highestJarId;
   if (jarArray.length > 0) {
-    highestJarId = parseInt(jarArray[jarArray.length - 1].id.match(/\d+/)[0]);
+    highestJarId = parseInt(jarArray[jarArray.length - 1].id.match(/\d+/));
+    console.log(highestJarId);
   } else {
     highestJarId = 0;
   }
   let jar = new Jar("jar" + (highestJarId + 1));
   jarArray.push(jar);
   saveJars(); // Save jarArray to database
-  let jarHeading =
-    jar.id.slice(0, 1).toUpperCase() +
-    jar.id.slice(1, 3) +
-    " " +
-    jar.id.slice(3, 4);
+  let jarHeading = "Jar " + jar.id.match(/\d+/);
   let jarHtml = `
   <div id="${jar.id}" class="card bg-secondary p-3">
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
