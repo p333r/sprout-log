@@ -77,7 +77,6 @@ function addJar() {
   let highestJarId;
   if (jarArray.length > 0) {
     highestJarId = parseInt(jarArray[jarArray.length - 1].id.match(/\d+/));
-    console.log(highestJarId);
   } else {
     highestJarId = 0;
   }
@@ -378,7 +377,6 @@ function growDuration() {
       }
 
       const growPercent = (parseFloat(growDuration) / avgGrowTime()) * 100;
-      console.log(growPercent);
 
       $("#" + element.id + " progress").attr("value", parseInt(growPercent));
     }
