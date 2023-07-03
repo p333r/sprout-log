@@ -47,7 +47,6 @@ $(async function () {
   $("button:contains('Add jar')").click(addJar);
   $("button.btn-close").click(removeJar);
   $("#seed-buttons input").click(seedInfo);
-  alert("Welcome to Sprouts!", "success");
 });
 
 async function getSeeds() {
@@ -390,14 +389,13 @@ function growDuration() {
 function addSeedButtons() {
   seedArray.forEach((item) => {
     $("#seed-buttons").append(
-      `<label class="btn btn-warning rounded-pill flex-grow-0">
+      `<label class="btn btn-warning rounded-pill flex-grow-0 shadow-sm">
       <input
       type="radio"
       name="options"
       id="${item.name}"
       value="${item.name}"
       autocomplete="off"
-      class="shadow"
       />
       ${item.name}
       </label>`
@@ -409,20 +407,36 @@ function seedInfo() {
   $("#seed-info").hide();
   let seedID = $(this).attr("id");
   let seed = seedArray.find((item) => item.name === seedID);
+
   $("#seed-info").html(
-    "<b>" +
-      seed.name +
-      "</b>" +
-      " | " +
-      "Max " +
-      seed.gramsPerJar +
-      "g per jar" +
-      " | " +
-      "Soak for " +
-      seed.soakTime +
-      " | " +
-      "Grow time is " +
-      seed.growTime
+    `<div class="bg-white">
+    <h2"> ${seed.name}</h2>
+  <p class="bg-white d-inline pe-2 border-end">
+    Max ${seed.gramsPerJar}g per jar
+  </p>
+  <p class="bg-white d-inline pe-2 border-end">
+    Soak for ${seed.soakTime}
+  </p>
+  <p class="bg-white d-inline">
+    Grow time is ${seed.growTime}
+  </p>
+  </div>`
+    //   "<ul>"
+    //   "<li>" +
+    //   "<b>" +
+    //     seed.name +
+    //     "</b>" + "</li>"
+    //     "<li>" +
+    //     "Max " +
+    //     "</li>" +
+    //     seed.gramsPerJar +
+    //     "g per jar" +
+    //     " | " +
+    //     "Soak for " +
+    //     seed.soakTime +
+
+    //     "Grow time is " +
+    //     seed.growTime
   );
   $("#seed-info").fadeIn(800);
 }

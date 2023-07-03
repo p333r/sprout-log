@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <%- include("partials/head") %>
-  <body class="container text-white">
+  <body class="text-white">
     <%- include("partials/header") %>
     <main class="d-flex flex-column align-items-center">
       <div id="counter" class="text-center">
         <!-- <h2 class="text-dark">Counter</h2> -->
         <div
           id="jar-container"
-          class="d-flex flex-row justify-content-center flex-wrap gap-3 mt-4"
+          class="d-flex flex-row justify-content-center flex-wrap gap-3"
         ></div>
         <button
           id="add-jar"
@@ -18,9 +18,8 @@
           Add jar
         </button>
 
-        <div id="seed-container" class="mt-4 mb-3">
-          <div id="seed-info" class="text-primary" style="display: none"></div>
-
+        <div id="seed-container" class="mt-4 pb-3 d-none">
+          <div id="seed-info" class="text-primary bg-white mb-2 d-inline"></div>
           <div
             id="seed-buttons"
             class="btn-group btn-group-toggle gap-2 d-flex flex-row flex-wrap justify-content-center"
