@@ -30,7 +30,7 @@ const jarArray = [];
 const msIn24h = 86400000;
 const msIn12h = msIn24h / 2;
 const seedArray = [];
-
+let jarId; // Used in fillJar()
 $(async function () {
   clock();
   setInterval(clock, 1000);
@@ -124,9 +124,15 @@ function addJar() {
 function jarProgress() {}
 
 function showSeedButtons() {
-  $("#seed-container").slideUp("slow");
-  const jarId = $(this).parent().parent("div").attr("id");
-  console.log(jarId);
+  $("#seed-container").slideDown();
+  jarId = $(this).parent().parent("div").attr("id"); // Get jar id and store in global variable
+  $("#hide-seeds").click(function () {
+    $("#seed-container").slideUp();
+  });
+  $("#add-seed").click(function () {
+    fillJar();
+    $("#seed-container").slideUp();
+  });
 }
 
 function removeJar() {
@@ -164,7 +170,7 @@ async function checkDatabase() {
       item.id.slice(0, 1).toUpperCase() +
       item.id.slice(1, 3) +
       " " +
-      item.id.slice(3, 4);
+      item.id.slice(3);
     if (item.empty === false) {
       $("#" + item.id + " h4").html(
         `Growing for <span class="text-info">${item.growDuration}</span>`
@@ -208,7 +214,7 @@ async function checkDatabase() {
 function fillJar() {
   if (typeof $("input:checked").val() !== "undefined") {
     let value = $("input:checked").val();
-    let id = $(this).parent().parent("div").attr("id");
+    let id = jarId;
     let jar = jarArray.find((item) => item.id === id);
     let seed = seedArray.find((item) => item.name === value);
     if (jar.empty === false) {
@@ -417,5 +423,5 @@ function seedInfo() {
   $("#seed-grams").text(seed.gramsPerJar);
   $("#seed-soakTime").text(seed.soakTime);
   $("#seed-growTime").text(seed.growTime);
-  $("#seed-info").fadeIn("slow");
+  $("#seed-info").fadeIn();
 }
