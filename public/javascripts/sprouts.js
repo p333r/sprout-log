@@ -47,6 +47,10 @@ $(async function () {
   $("button:contains('Add jar')").click(addJar);
   $("button.btn-close").click(removeJar);
   $("#seed-buttons input").click(seedInfo);
+  $("#add-seed").click(fillJar);
+  $("#hide-seeds").click(function () {
+    $("#seed-container").slideUp();
+  });
 });
 
 async function getSeeds() {
@@ -126,13 +130,6 @@ function jarProgress() {}
 function showSeedButtons() {
   $("#seed-container").slideDown();
   jarId = $(this).parent().parent("div").attr("id"); // Get jar id and store in global variable
-  $("#hide-seeds").click(function () {
-    $("#seed-container").slideUp();
-  });
-  $("#add-seed").click(function () {
-    fillJar();
-    $("#seed-container").slideUp();
-  });
 }
 
 function removeJar() {
@@ -212,6 +209,7 @@ async function checkDatabase() {
 }
 
 function fillJar() {
+  $("#seed-container").slideUp(); // Hide seed buttons
   if (typeof $("input:checked").val() !== "undefined") {
     let value = $("input:checked").val();
     let id = jarId;
