@@ -18,11 +18,30 @@
           Add jar
         </button>
 
-        <div id="seed-container" class="mt-4 pb-3 d-none">
-          <div id="seed-info" class="text-primary bg-white mb-2 d-inline"></div>
+        <div id="seed-container" class="bg-white fixed-bottom">
+          <div class="mt-2">
+            <button
+              class="btn btn-outline-secondary me-2 shadow-sm"
+              id="hide-seeds"
+            >
+              Hide
+            </button>
+            <button class="btn btn-outline-success shadow-sm" id="add-seed">
+              Add
+            </button>
+          </div>
+
+          <div id="seed-info" class="text-primary bg-white my-2">
+            <h3 id="seed-name">Broccoli</h3>
+            <p>
+              Max <span id="seed-grams">50</span>g per jar | Soak for
+              <span id="seed-soakTime">8-10 Hours</span> | Grow time is
+              <span id="seed-growTime">4-5 Days</span>
+            </p>
+          </div>
           <div
             id="seed-buttons"
-            class="btn-group btn-group-toggle gap-2 d-flex flex-row flex-wrap justify-content-center"
+            class="btn-group btn-group-toggle gap-2 d-flex flex-row flex-wrap justify-content-center my-2"
             data-toggle="buttons"
           ></div>
         </div>

@@ -27,4 +27,7 @@ $(function () {
   clock();
   setInterval(clock, 1000);
   $("#deleteSeedBtn").click(deleteSeed);
+  $("#addSeedBtn").click(() => {
+    $("#add-seed-form-container").slideDown("slow");
+  });
 });

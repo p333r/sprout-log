@@ -3,30 +3,32 @@
   <%- include("partials/head") %>
   <body class="container text-center">
     <%- include("partials/header") %>
-    <form action="/signup" method="post">
-      <section>
-        <label for="email">Username</label>
-        <input
-          id="username"
-          name="username"
-          type="text"
-          autocomplete="username"
-          required
-          autofocus
-        />
-      </section>
+    <main>
+      <form action="/signup" method="post">
+        <section>
+          <label for="email">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            autocomplete="username"
+            required
+            autofocus
+          />
+        </section>
 
-      <section class="mt-3">
-        <label for="password">Password</label>
-        <input
-          id="new-password"
-          name="password"
-          type="password"
-          autocomplete="new-password"
-          required
-        />
-      </section>
-      <button class="mt-3" type="submit">Sign up</button>
-    </form>
+        <section class="mt-3">
+          <label for="password">Password</label>
+          <input
+            id="new-password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            required
+          />
+        </section>
+        <button class="mt-3" type="submit">Sign up</button>
+      </form>
+    </main>
   </body>
 </html>

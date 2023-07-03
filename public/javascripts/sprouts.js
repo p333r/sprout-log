@@ -41,7 +41,7 @@ $(async function () {
   checkWaterTime();
   setInterval(checkWaterTime, 600000);
   setInterval(growDuration, 18000);
-  $("button:contains('Add seed')").click(fillJar);
+  $("button:contains('Add seed')").click(showSeedButtons);
   $("button:contains('Water')").click(waterJar);
   $("button:contains('Empty')").click(emptyJar);
   $("button:contains('Add jar')").click(addJar);
@@ -116,12 +116,18 @@ function addJar() {
 `;
   $("#jar-container").append(jarHtml);
   $("#" + jar.id + " button.btn-close").click(removeJar);
-  $("#" + jar.id + " button:contains('Add seed')").click(fillJar);
+  $("#" + jar.id + " button:contains('Add seed')").click(showSeedButtons);
   $("#" + jar.id + " button:contains('Water')").click(waterJar);
   $("#" + jar.id + " button:contains('Empty')").click(emptyJar);
 }
 
 function jarProgress() {}
+
+function showSeedButtons() {
+  $("#seed-container").slideUp("slow");
+  const jarId = $(this).parent().parent("div").attr("id");
+  console.log(jarId);
+}
 
 function removeJar() {
   let id = $(this).parent("div").attr("id");
@@ -407,36 +413,9 @@ function seedInfo() {
   $("#seed-info").hide();
   let seedID = $(this).attr("id");
   let seed = seedArray.find((item) => item.name === seedID);
-
-  $("#seed-info").html(
-    `<div class="bg-white">
-    <h2"> ${seed.name}</h2>
-  <p class="bg-white d-inline pe-2 border-end">
-    Max ${seed.gramsPerJar}g per jar
-  </p>
-  <p class="bg-white d-inline pe-2 border-end">
-    Soak for ${seed.soakTime}
-  </p>
-  <p class="bg-white d-inline">
-    Grow time is ${seed.growTime}
-  </p>
-  </div>`
-    //   "<ul>"
-    //   "<li>" +
-    //   "<b>" +
-    //     seed.name +
-    //     "</b>" + "</li>"
-    //     "<li>" +
-    //     "Max " +
-    //     "</li>" +
-    //     seed.gramsPerJar +
-    //     "g per jar" +
-    //     " | " +
-    //     "Soak for " +
-    //     seed.soakTime +
-
-    //     "Grow time is " +
-    //     seed.growTime
-  );
-  $("#seed-info").fadeIn(800);
+  $("#seed-name").text(seed.name);
+  $("#seed-grams").text(seed.gramsPerJar);
+  $("#seed-soakTime").text(seed.soakTime);
+  $("#seed-growTime").text(seed.growTime);
+  $("#seed-info").fadeIn("slow");
 }

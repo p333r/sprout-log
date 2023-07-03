@@ -32,3 +32,17 @@ td {
 #seeds-list, #users-list {
   list-style-type: none;
 }
+
+#seed-container {
+  display: none;
+  z-index: 1;
+}
+
+#seed-info {
+  display: none;
+}
+
+/* admin page */
+#add-seed-form-container {
+  display: none;
+}
