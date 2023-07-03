@@ -40,13 +40,14 @@ $(async function () {
   growDuration();
   checkWaterTime();
   setInterval(checkWaterTime, 600000);
-  setInterval(growDuration, msIn12h);
+  setInterval(growDuration, 18000);
   $("button:contains('Add seed')").click(fillJar);
   $("button:contains('Water')").click(waterJar);
   $("button:contains('Empty')").click(emptyJar);
   $("button:contains('Add jar')").click(addJar);
   $("button.btn-close").click(removeJar);
   $("#seed-buttons input").click(seedInfo);
+  alert("Welcome to Sprouts!", "success");
 });
 
 async function getSeeds() {
@@ -379,6 +380,9 @@ function growDuration() {
       const growPercent = (parseFloat(growDuration) / avgGrowTime()) * 100;
 
       $("#" + element.id + " progress").attr("value", parseInt(growPercent));
+      $("#" + element.id + " h4").html(
+        `Growing for <span class="text-info">${element.growDuration}</span>`
+      );
     }
   });
 }
@@ -393,6 +397,7 @@ function addSeedButtons() {
       id="${item.name}"
       value="${item.name}"
       autocomplete="off"
+      class="shadow"
       />
       ${item.name}
       </label>`
