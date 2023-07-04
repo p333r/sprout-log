@@ -94,7 +94,7 @@ function addJar() {
     aria-label="Close">
   </button>
   <h2>${jarHeading}</h2>
-  <progress id="jar-progress" value="0" max="100"></progress>
+  <progress class="jar-progress" value="0" max="100"></progress>
   <h3 class="fs-1">(empty)</h3>
   <h4></h4>
   <table class="table-responsive m-2">
@@ -179,7 +179,7 @@ async function checkDatabase() {
         aria-label="Close">
       </button>
       <h2>${jarHeading}</h2>
-      <progress id="jar-progress" value="0" max="100"></progress>
+      <progress class="jar-progress" value="0" max="100"></progress>
       <h3 class="fs-1">(empty)</h3>
       <h4></h4>
       <table class="table-responsive m-2">
@@ -301,16 +301,7 @@ function getTime() {
 }
 
 function clock() {
-  let date = new Date();
-  let day = date.toLocaleString("en-US", {
-    weekday: "long",
-  });
-  let timeString = date.toLocaleString("en-US", {
-    dateStyle: "long",
-    timeStyle: "short",
-  });
-
-  $("#clock").text(day + " " + timeString);
+  $("#clock").text(getTime());
 }
 
 function checkWaterTime() {

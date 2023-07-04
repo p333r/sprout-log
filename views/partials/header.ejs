@@ -1,6 +1,6 @@
-<header class="text-center pt-3 text-dark fixed-top">
-  <nav>
-    <ul class="nav justify-content-center">
+<header class="text-center pt-3 text-dark">
+  <nav class="sticky-top">
+    <ul class="navbar navbar-expand justify-content-center">
       <li class="nav-item">
         <!-- <% if (user?.role === "admin") {%>
           <li class="nav-item">
@@ -11,7 +11,7 @@
           </li>
           <% } %> -->
         <% if (user) {%>
-        <a class="nav-link" href="/logout">Logout</a>
+        <a class="nav-link sticky-top" href="/logout">Logout</a>
         <% } else { %>
         <a class="nav-link" href="/login">Login</a>
         <% } %>
@@ -28,7 +28,7 @@
   <div class="d-flex flex-row justify-content-center align-content-center mt-4">
     <p
       id="clock"
-      class="bg-info text-light p-2 fs-5 d-inline-block rounded"
+      class="bg-info text-light p-2 fs-5 d-inline-block rounded sticky-top"
     ></p>
   </div>
 </header>
