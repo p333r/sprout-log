@@ -1,5 +1,4 @@
 class Jar {
-  growduration;
   constructor(id) {
     this.id = id;
     this.empty = true;
@@ -25,6 +24,7 @@ class Jar {
   }
 }
 
+// Global variables
 let alertCount = 0;
 const jarArray = [];
 const msIn24h = 86400000;
@@ -32,6 +32,7 @@ const msIn12h = msIn24h / 2;
 const seedArray = [];
 let jarId; // Used in fillJar()
 
+// Initialize page
 $(async function () {
   clock();
   setInterval(clock, 1000);
@@ -78,23 +79,13 @@ async function saveJars() {
   return;
 }
 
-function addJar() {
-  let highestJarId;
-  if (jarArray.length > 0) {
-    highestJarId = parseInt(jarArray[jarArray.length - 1].id.match(/\d+/));
-  } else {
-    highestJarId = 0;
-  }
-  let jar = new Jar("jar" + (highestJarId + 1));
-  jarArray.push(jar);
-  saveJars(); // Save jarArray to database
-  let jarHeading = "Jar " + jar.id.match(/\d+/);
-  let jarHtml = `
-  <div id="${jar.id}" class="card p-2 jar">
+function createJar(id, heading) {
+  return `
+  <div id="${id}" class="card p-2 jar">
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
     aria-label="Close">
   </button>
-  <h2>${jarHeading}</h2>
+  <h2>${heading}</h2>
   <progress class="jar-progress" value="0" max="100"></progress>
   <h3 class="fs-1">(empty)</h3>
   <h4></h4>
@@ -117,8 +108,23 @@ function addJar() {
     <button type="button" class="btn btn-primary m-1">Water</button>
     <button type="button" class="btn btn-danger m-1">Empty</button>
   </div>
-</div>
-`;
+</div>`;
+}
+
+function addJar() {
+  let highestJarId;
+  if (jarArray.length > 0) {
+    highestJarId = parseInt(jarArray[jarArray.length - 1].id.match(/\d+/));
+  } else {
+    highestJarId = 0;
+  }
+  let jar = new Jar("jar" + (highestJarId + 1));
+  jarArray.push(jar);
+  saveJars(); // Save jarArray to database
+  let jarHeading = "Jar " + jar.id.match(/\d+/);
+
+  let jarHtml = createJar(jar.id, jarHeading);
+
   $("#jar-container").append(jarHtml);
   $("#" + jar.id + " button.btn-close").click(removeJar);
   $("#" + jar.id + " button:contains('Add seed')").click(showSeedButtons);
@@ -176,36 +182,7 @@ async function checkDatabase() {
         `Growing for <span class="days-text">${item.growDuration}</span>`
       );
     }
-    let jarHtml = `
-      <div id="${item.id}" class="card p-2 jar">
-      <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
-        aria-label="Close">
-      </button>
-      <h2>${jarHeading}</h2>
-      <progress class="jar-progress" value="0" max="100"></progress>
-      <h3 class="fs-1">(empty)</h3>
-      <h4></h4>
-      <table class="table-responsive m-2">
-        <tr>
-          <td>Started:</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Watered:</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Grow time:</td>
-          <td></td>
-        </tr>
-      </table>
-      <div class="btn-group-round">
-        <button type="button" class="btn btn-success m-1">Add seed</button>
-        <button type="button" class="btn btn-primary m-1">Water</button>
-        <button type="button" class="btn btn-danger m-1">Empty</button>
-      </div>
-    </div>
-    `;
+    let jarHtml = createJar(item.id, jarHeading);
     $("#jar-container").append(jarHtml);
     updateJar(item.id);
   });
