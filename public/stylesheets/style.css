@@ -156,4 +156,7 @@ td:last-child {
   #logo {
     max-width: 200px;
   }
+  header > .grid-container {
+    gap: 120px;
   }
+}
