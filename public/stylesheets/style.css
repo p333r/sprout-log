@@ -5,20 +5,29 @@ body {
   user-select: none;
 }
 
+main {
+  margin: 50px 20px 20px;
+  padding: 10px;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
 header {
-  height: 15vh;
-  display: flex;
-  display: -webkit-flex;
-  flex-direction: row;
-  -webkit-flex-direction: row;
-  flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  justify-content: center;
-  -webkit-justify-content: center;
-  align-items: center;
+  color: black;
+  text-align: center;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: #17ff78;
   overflow: hidden;
-  -webkit-align-items: center;
+  height: 15vh;
   z-index: 1;
+}
+
+header > .flex-container {
+  max-width: 1200px;
 }
 
 header div, nav {
@@ -29,11 +38,45 @@ header p {
   margin-bottom: 0;
 }
 
-nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+a.button:hover {
+  background-color: #ffffff;
+}
+
+.admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.flex-container {
+  width: 100%;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #16e3f1;
+  color: black;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+#title {
+  color: black;
 }
 
 #logo {

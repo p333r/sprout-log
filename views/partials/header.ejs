@@ -1,24 +1,22 @@
-<header class="text-center text-dark">
+<header class="flex-container">
+  <div class="flex-container">
   <div>
-    <% if (user) {%>
-    <p>Logged in as <%= user.username %></p>
     <p id="clock"></p>
-    <% } %>
   </div>
   <div>
     <img id="logo" src="/assets/color-logo-no-background.svg" alt="" />
   </div>
   <nav>
-    <ul role="navigation">
       <% if (user) {%>
-      <li><a href="/logout">Logout</a></li>
-      <% } else { %>
-      <li><a href="/login">Login</a></li>
-      <li class="nav-item">
-        <a href="/signup">Signup</a>
-        <% } %>
-      </li>
-    </ul>
+        <p><%= user.username %></p>
+        <a href="/logout" class="button">Logout</a>
+      <% } else if (page === "login") { %>
+        <a href="/signup" class="button">Signup</a>
+      <% } else if (page === "signup") {%>
+        <a href="/login" class="button">Login</a>
+      <% } %>
+    </nav>
   </nav>
+  </div>
   <h1>Sprout Log</h1>
 </header>

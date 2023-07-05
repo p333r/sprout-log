@@ -78,11 +78,11 @@ router.get("/", jwtAuth, async function (req, res, next) {
 });
 
 router.get("/signup", function (req, res, next) {
-  res.render("signup", { title: "Sign up", user: req.user });
+  res.render("signup", { title: "Sign up", user: req.user, page: "signup" });
 });
 
 router.get("/login", function (req, res, next) {
-  res.render("login", { title: "Log in", user: req.user });
+  res.render("login", { title: "Log in", user: req.user, page: "login" });
 });
 
 // Register new user
