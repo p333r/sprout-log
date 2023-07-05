@@ -5,33 +5,31 @@
     <%- include("partials/header") %>
     <main>
       <h2>Login</h2>
-      <div class="flex-container">
-      <form action="/login/password" method="post">
-        <div class="flex-container">
-          <label for="username">Username</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            autocomplete="username"
-            required
-            autofocus
-          />
-        </div>
+        <form action="/login/password" method="post" class="flex-container">
+          <div>
+            <label for="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              autocomplete="username"
+              required
+              autofocus
+            />
+          </div>
 
-        <div class="flex-container">
-          <label for="current-password">Password</label>
-          <input
-            id="current-password"
-            name="password"
-            type="password"
-            autocomplete="current-password"
-            required
-          />
-        </div>
-        <button type="submit">Sign in</button>
-      </form>
-
+          <div>
+            <label for="current-password">Password</label>
+            <input
+              id="current-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <button type="submit" class="button">Login</button>
+        </form>
       </div>
     </main>
   </body>
