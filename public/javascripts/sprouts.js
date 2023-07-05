@@ -132,8 +132,6 @@ function addJar() {
   $("#" + jar.id + " button:contains('Empty')").click(emptyJar);
 }
 
-function jarProgress() {}
-
 function showSeedButtons() {
   $("#seed-container").slideDown("fast");
   jarId = $(this).parent().parent("div").attr("id"); // Get jar id and store in global variable
