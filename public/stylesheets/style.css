@@ -23,7 +23,6 @@ header {
   top: 0;
   /* background-color: #17ff78; */
   overflow: hidden;
-  height: 15vh;
   min-height: 100px;
   z-index: 1;
 }
@@ -89,7 +88,7 @@ a.button:hover {
 }
 
 #logo {
-  width: 15vh;
+  max-width: 95px;
 }
 
 #seed-container {
