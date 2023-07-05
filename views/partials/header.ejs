@@ -1,25 +1,26 @@
 <header class="flex-container">
-  <div class="flex-container">
-  <div>
-    <p id="day"></p>
-    <p id="date"></p>
-    <p id="clock"></p>
-  </div>
-  <div>
-    <img id="logo" src="/assets/color-logo-no-background-v3.svg" alt="" />
-  </div>
-  <nav>
-      <% if (user) {%>
-        <p><%= user.username %></p>
-        <a href="/logout" class="button">Logout</a>
-      <% }
-       if (page === "login") { %>
-        <a href="/signup" class="button">Signup</a>
-      <% } else if (page === "signup") {%>
-        <a href="/login" class="button">Login</a>
-      <% } %>
-    </nav>
-  </nav>
-  </div>
   <h1>Sprout Log</h1>
+  <div class="grid-container">
+    <div>
+      <p id="day"></p>
+      <p id="date"></p>
+      <p id="clock"></p>
+    </div>
+    <div>
+      <img id="logo" src="/assets/color-logo-no-background-v3.svg" alt="" />
+    </div>
+    <nav>
+        <% if (user) {%>
+          <p>Logged in as <%= user.username %></p>
+          <a href="/logout">Logout</a>
+        <% }
+        if (page === "login") { %>
+          <a href="/signup">Signup</a>
+        <% } else if (page === "signup") {%>
+          <a href="/login">Login</a>
+        <% } %>
+      </nav>
+    </nav>
+  </div>
+  
 </header>

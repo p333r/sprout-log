@@ -40,7 +40,10 @@ header {
 header > .flex-container {
   max-width: 1200px;
 }
-header div, nav {
+header > .grid-container {
+  max-width: 1200px;
+}
+header div,header nav {
   min-width: 99.5px;
 }
 header p {
@@ -95,12 +98,19 @@ button.button {
   flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   justify-content: space-evenly;
-  -webkit-justify-content: space-evenly;
+  -webkit-justify-content: center;
   align-items: center;
   -webkit-align-items: center;
 }
 form.flex-container {
   flex-direction: column;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2px;
+  justify-items: center;
+  align-items: center;
 }
 #seed-container {
   padding-bottom: 50px;
@@ -115,9 +125,13 @@ form.flex-container {
 /********* MISC *********/
 #logo {
   max-width: 95px;
+  flex-grow: 2;
 }
-td {
-  padding-right: 1rem;
+td:first-child {
+  text-align: left;
+}
+td:last-child {
+  text-align: right;
 }
 .jar-progress {
   width: 100%;
@@ -138,3 +152,8 @@ td {
   margin: 0 auto;
 }
 /********* MEDIA QUERIES *********/
+@media screen and (min-width: 937px) {
+  #logo {
+    max-width: 200px;
+  }
+  }

@@ -90,7 +90,7 @@ function addJar() {
   saveJars(); // Save jarArray to database
   let jarHeading = "Jar " + jar.id.match(/\d+/);
   let jarHtml = `
-  <div id="${jar.id}" class="card p-3 jar">
+  <div id="${jar.id}" class="card p-2 jar">
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
     aria-label="Close">
   </button>
@@ -177,7 +177,7 @@ async function checkDatabase() {
       );
     }
     let jarHtml = `
-      <div id="${item.id}" class="card p-3 jar">
+      <div id="${item.id}" class="card p-2 jar">
       <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
         aria-label="Close">
       </button>
