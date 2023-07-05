@@ -4,9 +4,10 @@
   <body>
     <%- include("partials/header") %>
     <main>
-      <div id="title"><h2>Login</h2></div>
+      <h2>Login</h2>
+      <div class="flex-container">
       <form action="/login/password" method="post">
-        <div>
+        <div class="flex-container">
           <label for="username">Username</label>
           <input
             id="username"
@@ -18,7 +19,7 @@
           />
         </div>
 
-        <div>
+        <div class="flex-container">
           <label for="current-password">Password</label>
           <input
             id="current-password"
@@ -30,6 +31,8 @@
         </div>
         <button type="submit">Sign in</button>
       </form>
+
+      </div>
     </main>
   </body>
 </html>

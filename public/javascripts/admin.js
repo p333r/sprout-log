@@ -11,16 +11,20 @@ async function deleteSeed() {
 }
 
 function clock() {
-  let date = new Date();
-  let day = date.toLocaleString("en-US", {
+  let d = new Date();
+  let day = d.toLocaleString("en-US", {
     weekday: "long",
   });
-  let timeString = date.toLocaleString("en-US", {
-    dateStyle: "long",
+  let date = d.toLocaleString("en-US", {
+    dateStyle: "short",
+  });
+  let time = d.toLocaleString("en-US", {
     timeStyle: "short",
   });
 
-  $("#clock").text(day + " " + timeString);
+  $("#day").text(day);
+  $("#date").text(date);
+  $("#clock").text(time);
 }
 
 $(function () {

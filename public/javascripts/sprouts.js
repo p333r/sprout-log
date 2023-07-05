@@ -130,6 +130,8 @@ function jarProgress() {}
 function showSeedButtons() {
   $("#seed-container").slideDown();
   jarId = $(this).parent().parent("div").attr("id"); // Get jar id and store in global variable
+  const jarName = $(this).parent().parent("div").children("h2").text();
+  $("#seed-container h3").text("Add seed to " + jarName);
 }
 
 function removeJar() {
@@ -301,7 +303,20 @@ function getTime() {
 }
 
 function clock() {
-  $("#clock").text(getTime());
+  let d = new Date();
+  let day = d.toLocaleString("en-US", {
+    weekday: "long",
+  });
+  let date = d.toLocaleString("en-US", {
+    dateStyle: "short",
+  });
+  let time = d.toLocaleString("en-US", {
+    timeStyle: "short",
+  });
+
+  $("#day").text(day);
+  $("#date").text(date);
+  $("#clock").text(time);
 }
 
 function checkWaterTime() {
