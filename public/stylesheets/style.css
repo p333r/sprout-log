@@ -15,6 +15,7 @@ h1, h2, h3 {
 
 header {
   color: black;
+  background-color: white;
   text-align: center;
   position: sticky;
   position: -webkit-sticky;
@@ -40,7 +41,8 @@ header p {
 }
 
 a.button:hover {
-  background-color: #ffffff;
+  background-color: black;
+  color: white;
 }
 
 .admin-content {
@@ -73,7 +75,7 @@ a.button:hover {
 .button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #16e3f1;
+  background-color: #17FF78;
   color: black;
   text-decoration: none;
   border-radius: 4px;
@@ -89,8 +91,7 @@ a.button:hover {
 }
 
 #logo {
-  width: 90%;
-  max-width: 15vh;
+  width: 15vh;
 }
 
 header h1 {
