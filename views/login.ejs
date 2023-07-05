@@ -5,9 +5,9 @@
     <%- include("partials/header") %>
     <main>
       <h2>Login</h2>
-        <form action="/login/password" method="post" class="flex-container">
+        <form action="/login" method="post" class="flex-container">
           <div>
-            <label for="username">Username</label>
+            <label for="username">Username</label><br>
             <input
               id="username"
               name="username"
@@ -19,7 +19,7 @@
           </div>
 
           <div>
-            <label for="current-password">Password</label>
+            <label for="current-password">Password</label><br>
             <input
               id="current-password"
               name="password"
@@ -29,7 +29,9 @@
             />
           </div>
           <button type="submit" class="button">Login</button>
+          <p><%- message %></p>
         </form>
+        
       </div>
     </main>
   </body>

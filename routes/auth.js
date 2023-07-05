@@ -71,31 +71,50 @@ router.get("/", jwtAuth, async function (req, res, next) {
     res.redirect("/admin");
   } else {
     res.render("index", {
-      title: req.user.username,
       user: req.user,
+      page: "home",
     });
   }
 });
 
 router.get("/signup", function (req, res, next) {
-  res.render("signup", { title: "Sign up", user: req.user, page: "signup" });
+  res.render("signup", {
+    user: req.user,
+    page: "signup",
+    message: "Already have an account? <a href='/login'>Log in</a>",
+    success: false,
+  });
 });
 
 router.get("/login", function (req, res, next) {
-  res.render("login", { title: "Log in", user: req.user, page: "login" });
+  res.render("login", {
+    user: req.user,
+    page: "login",
+    message: "Don't have an account? <a href='/signup'>Sign up</a>",
+  });
 });
 
 // Register new user
 router.post("/signup", async function (req, res, next) {
-  const { username, password } = req.body;
+  const { username, password, confirm } = req.body;
+
+  if (password !== confirm) {
+    return res.render("signup", {
+      message: "Passwords do not match. Please try again.",
+      user: false,
+      success: false,
+      page: "signup",
+    });
+  }
 
   try {
     const user = await users.get(username);
     if (user) {
       return res.render("signup", {
-        info: "Sorry. That username already exists. Please try again.",
-        user: user,
-        title: "Sign up",
+        message: "Sorry. That username already exists. Please try again.",
+        user: false,
+        success: false,
+        page: "signup",
       });
     }
 
@@ -103,8 +122,10 @@ router.post("/signup", async function (req, res, next) {
       if (err) {
         console.info(err);
         return res.render("signup", {
-          info: "Sorry. Something went wrong. Please try again.",
-          user: user,
+          message: "Sorry. Something went wrong. Please try again.",
+          user: false,
+          success: false,
+          page: "signup",
         });
       }
 
@@ -120,7 +141,12 @@ router.post("/signup", async function (req, res, next) {
       { expiresIn: "24h" }
     );
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 });
-    res.redirect("/");
+    res.render("signup", {
+      message: "User created successfully! <a href='/login'>Log in here.</a>",
+      success: true,
+      user: true,
+      page: "signup",
+    });
   } catch (err) {
     console.info(err);
     res.status(500).jsend.error(err);
@@ -128,18 +154,25 @@ router.post("/signup", async function (req, res, next) {
 });
 
 // Login user
-router.post("/login/password", async function (req, res, next) {
+router.post("/login", async function (req, res, next) {
   const { username, password } = req.body;
   //TODO: Add verification for username and password
-  const user = await users.get(username).then((user) => user.props);
+  const user = await users.get(username).then((user) => user?.props);
   // TODO: Add verification for user
+  if (!user) {
+    return res.render("login", {
+      message: "Invalid username or password",
+      user: user,
+      page: "login",
+    });
+  }
   bcrypt.compare(password, user.passwordHash, function (err, result) {
     if (err) {
       console.info(err);
       return res.render("login", {
-        info: "Sorry. Something went wrong. Please try again.",
+        message: "Sorry. Something went wrong. Please try again.",
         user: user,
-        title: "Log in",
+        page: "login",
       });
     }
     if (result) {
@@ -154,6 +187,12 @@ router.post("/login/password", async function (req, res, next) {
         maxAge: 1000 * 60 * 60 * 24,
       });
       res.redirect("/");
+    } else {
+      res.render("login", {
+        message: "Invalid username or password",
+        user: user,
+        page: "login",
+      });
     }
   });
 });

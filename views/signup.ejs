@@ -7,7 +7,7 @@
       <h2>Sign Up</h2>
       <form action="/signup" method="post" class="flex-container">
         <section>
-          <label for="email">Username</label>
+          <label for="email">Username</label><br />
           <input
             id="username"
             name="username"
@@ -19,7 +19,7 @@
         </section>
 
         <section>
-          <label for="password">Password</label>
+          <label for="password">Password</label><br />
           <input
             id="new-password"
             name="password"
@@ -28,7 +28,19 @@
             required
           />
         </section>
+
+        <section>
+          <label for="confirm-password">Confirm Password</label><br />
+          <input
+            id="confirm"
+            name="confirm"
+            type="password"
+            autocomplete="new-password"
+            required
+          />
+        </section>
         <button type="submit" class="button">Submit</button>
+        <p><%- message %> %></p>
       </form>
     </main>
   </body>

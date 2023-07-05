@@ -12,7 +12,8 @@
       <% if (user) {%>
         <p><%= user.username %></p>
         <a href="/logout" class="button">Logout</a>
-      <% } else if (page === "login") { %>
+      <% }
+       if (page === "login") { %>
         <a href="/signup" class="button">Signup</a>
       <% } else if (page === "signup") {%>
         <a href="/login" class="button">Login</a>
