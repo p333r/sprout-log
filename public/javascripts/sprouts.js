@@ -31,6 +31,7 @@ const msIn24h = 86400000;
 const msIn12h = msIn24h / 2;
 const seedArray = [];
 let jarId; // Used in fillJar()
+
 $(async function () {
   clock();
   setInterval(clock, 1000);
@@ -49,7 +50,7 @@ $(async function () {
   $("#seed-buttons input").click(seedInfo);
   $("#add-seed").click(fillJar);
   $("#hide-seeds").click(function () {
-    $("#seed-container").slideUp();
+    $("#seed-container").slideUp("fast");
   });
 });
 
@@ -128,7 +129,7 @@ function addJar() {
 function jarProgress() {}
 
 function showSeedButtons() {
-  $("#seed-container").slideDown();
+  $("#seed-container").slideDown("fast");
   jarId = $(this).parent().parent("div").attr("id"); // Get jar id and store in global variable
   const jarName = $(this).parent().parent("div").children("h2").text();
   $("#seed-container h3").text("Add seed to " + jarName);
