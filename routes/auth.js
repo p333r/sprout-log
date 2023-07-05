@@ -101,7 +101,7 @@ router.post("/signup", async function (req, res, next) {
   if (password !== confirm) {
     return res.render("signup", {
       message: "Passwords do not match. Please try again.",
-      user: false,
+      user: null,
       success: false,
       page: "signup",
     });
@@ -112,7 +112,7 @@ router.post("/signup", async function (req, res, next) {
     if (user) {
       return res.render("signup", {
         message: "Sorry. That username already exists. Please try again.",
-        user: false,
+        user: null,
         success: false,
         page: "signup",
       });
@@ -123,7 +123,7 @@ router.post("/signup", async function (req, res, next) {
         console.info(err);
         return res.render("signup", {
           message: "Sorry. Something went wrong. Please try again.",
-          user: false,
+          user: null,
           success: false,
           page: "signup",
         });
@@ -144,7 +144,7 @@ router.post("/signup", async function (req, res, next) {
     res.render("signup", {
       message: "User created successfully! <a href='/login'>Log in here.</a>",
       success: true,
-      user: true,
+      user: null,
       page: "signup",
     });
   } catch (err) {
@@ -158,11 +158,10 @@ router.post("/login", async function (req, res, next) {
   const { username, password } = req.body;
   //TODO: Add verification for username and password
   const user = await users.get(username).then((user) => user?.props);
-  // TODO: Add verification for user
   if (!user) {
     return res.render("login", {
       message: "Invalid username or password",
-      user: user,
+      user: null,
       page: "login",
     });
   }
@@ -171,7 +170,7 @@ router.post("/login", async function (req, res, next) {
       console.info(err);
       return res.render("login", {
         message: "Sorry. Something went wrong. Please try again.",
-        user: user,
+        user: null,
         page: "login",
       });
     }
