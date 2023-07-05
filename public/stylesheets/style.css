@@ -1,3 +1,13 @@
+/* Table of contents */
+/* 1. GENERIC */
+/* 2. HEADER */
+/* 3. BUTTONS/LINKS */
+/* 4. CONTAINERS */
+/* 5. MISC */
+/* 6. ADMIN PAGE */
+/* 7. MEDIA QUERIES */
+
+/********* GENERIC *********/
 body {
   color: black;
   font-size: 1.1rem;
@@ -68,13 +78,10 @@ button.button {
   background-color: #17FF78;
   margin: 10px 0;
 }
-.admin-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
 .days-text {
   color: #68daf8;
 }
+/********* CONTAINERS *********/
 .jar {
   color: white;
   background-color: #555555;
@@ -95,17 +102,22 @@ button.button {
 form.flex-container {
   flex-direction: column;
 }
-#logo {
-  max-width: 95px;
-}
 #seed-container {
   padding-bottom: 50px;
 }
-td {
-  padding-right: 1rem;
-}
 #jar-container h3 {
   color: lightgreen;
+}
+#seed-container {
+  display: none;
+  z-index: 1;
+}
+/********* MISC *********/
+#logo {
+  max-width: 95px;
+}
+td {
+  padding-right: 1rem;
 }
 .jar-progress {
   width: 100%;
@@ -114,10 +126,6 @@ td {
 #seeds-list, #users-list {
   list-style-type: none;
 }
-#seed-container {
-  display: none;
-  z-index: 1;
-}
 #seed-info {
   display: none;
 }
@@ -125,3 +133,8 @@ td {
 #add-seed-form-container {
   display: none;
 }
+.admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/********* MEDIA QUERIES *********/
