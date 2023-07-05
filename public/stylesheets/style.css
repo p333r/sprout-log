@@ -36,6 +36,7 @@ header div, nav {
 
 header p {
   margin-bottom: 0;
+  font-size: 1.2rem;
 }
 
 a.button:hover {
@@ -47,8 +48,12 @@ a.button:hover {
   margin: 0 auto;
 }
 
-.text-info {
-  color: whitesmoke;
+.days-text {
+  color: #68daf8;
+}
+
+.jar {
+  background-color: #555555;
 }
 
 .flex-container {

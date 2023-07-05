@@ -89,7 +89,7 @@ function addJar() {
   saveJars(); // Save jarArray to database
   let jarHeading = "Jar " + jar.id.match(/\d+/);
   let jarHtml = `
-  <div id="${jar.id}" class="card bg-secondary p-3">
+  <div id="${jar.id}" class="card p-3 jar">
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
     aria-label="Close">
   </button>
@@ -170,11 +170,11 @@ async function checkDatabase() {
       item.id.slice(3);
     if (item.empty === false) {
       $("#" + item.id + " h4").html(
-        `Growing for <span class="text-info">${item.growDuration}</span>`
+        `Growing for <span class="days-text">${item.growDuration}</span>`
       );
     }
     let jarHtml = `
-      <div id="${item.id}" class="card bg-secondary p-3">
+      <div id="${item.id}" class="card p-3 jar">
       <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
         aria-label="Close">
       </button>
@@ -267,7 +267,7 @@ function updateJar(id) {
   $("#" + id + " h3").text(jar.seed.name);
   if (jar.empty === false) {
     $("#" + id + " h4").html(
-      `Growing for <span class="text-info">${jar.growDuration}</span>`
+      `Growing for <span class="days-text">${jar.growDuration}</span>`
     );
   }
   $("#" + id + " td:contains('Started')")
@@ -381,7 +381,7 @@ function growDuration() {
 
       $("#" + element.id + " progress").attr("value", parseInt(growPercent));
       $("#" + element.id + " h4").html(
-        `Growing for <span class="text-info">${element.growDuration}</span>`
+        `Growing for <span class="days-text">${element.growDuration}</span>`
       );
     }
   });
