@@ -6,9 +6,48 @@ body {
 }
 
 header {
-  width: 100%;
-  background-color: white;
+  height: 15vh;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  -webkit-align-items: center;
   z-index: 1;
+}
+
+header div, nav {
+  width: 33%;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#logo {
+  width: 90%;
+  max-width: 15vh;
+}
+
+header h1 {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
 }
 
 td {
