@@ -34,15 +34,14 @@ let jarId; // Used in fillJar()
 
 // Initialize page
 $(async function () {
-  clock();
-  setInterval(clock, 1000);
-  await getSeeds();
+  console.log("Page loaded");
   await checkDatabase();
+  await getSeeds();
   addSeedButtons();
   growDuration();
   checkWaterTime();
-  setInterval(checkWaterTime, 600000);
-  setInterval(growDuration, 18000);
+  setInterval(checkWaterTime, 900000); // Check every 15 minutes
+  setInterval(growDuration, 900000); // Check every 15 minutes
   $("button:contains('Add seed')").click(showSeedButtons);
   $("button:contains('Water')").click(waterJar);
   $("button:contains('Empty')").click(emptyJar);
@@ -56,6 +55,7 @@ $(async function () {
 });
 
 async function getSeeds() {
+  console.log("getSeeds() called");
   const response = await fetch("/seeds");
   const data = await response.json();
   seedArray.push(...data);
@@ -63,12 +63,14 @@ async function getSeeds() {
 }
 
 async function getJars() {
+  console.log("getJars() called");
   const response = await fetch("/user/jars");
   const data = await response.json();
   return data;
 }
 
 async function saveJars() {
+  console.log("saveJars() called");
   await fetch("/user/jars", {
     method: "POST",
     headers: {
@@ -80,6 +82,7 @@ async function saveJars() {
 }
 
 function createJar(id, heading) {
+  console.log("createJar() called");
   return `
   <div id="${id}" class="card p-2 jar">
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
@@ -112,6 +115,7 @@ function createJar(id, heading) {
 }
 
 function addJar() {
+  console.log("addJar() called");
   let highestJarId;
   if (jarArray.length > 0) {
     highestJarId = parseInt(jarArray[jarArray.length - 1].id.match(/\d+/));
@@ -133,6 +137,7 @@ function addJar() {
 }
 
 function showSeedButtons() {
+  console.log("showSeedButtons() called");
   $("#seed-container").slideDown("fast");
   jarId = $(this).parent().parent("div").attr("id"); // Get jar id and store in global variable
   const jarName = $(this).parent().parent("div").children("h2").text();
@@ -140,6 +145,7 @@ function showSeedButtons() {
 }
 
 function removeJar() {
+  console.log("removeJar() called");
   let id = $(this).parent("div").attr("id");
   let jar = jarArray.find((item) => item.id === id);
   if (jar.empty === false) {
@@ -160,6 +166,7 @@ function removeJar() {
 }
 
 async function checkDatabase() {
+  console.log("checkDatabase() called");
   const arr = await getJars();
   arr.forEach(function (item) {
     jarArray.push(new Jar(item.id));
@@ -182,7 +189,7 @@ async function checkDatabase() {
     }
     let jarHtml = createJar(item.id, jarHeading);
     $("#jar-container").append(jarHtml);
-    updateJar(item.id);
+    updateJar(item.id, false);
   });
 }
 
@@ -239,7 +246,8 @@ function drainTime() {
   return this.seed.soakTime;
 }
 
-function updateJar(id) {
+function updateJar(id, save = true) {
+  // Update jar info in DOM and save to database if save = true
   let jar = jarArray.find((item) => item.id === id);
 
   $("#" + id + " h3").text(jar.seed.name);
@@ -267,8 +275,9 @@ function updateJar(id) {
       .next()
       .text("");
   }
-
-  saveJars(); // Save jarArray to database
+  if (save === true) {
+    saveJars(); // Save jarArray to database
+  }
 }
 
 function getTime() {
@@ -278,24 +287,8 @@ function getTime() {
   });
 }
 
-function clock() {
-  let d = new Date();
-  let day = d.toLocaleString("en-US", {
-    weekday: "long",
-  });
-  let date = d.toLocaleString("en-US", {
-    dateStyle: "short",
-  });
-  let time = d.toLocaleString("en-US", {
-    timeStyle: "short",
-  });
-
-  $("#day").text(day);
-  $("#date").text(date);
-  $("#clock").text(time);
-}
-
 function checkWaterTime() {
+  console.log("checkWaterTime() called");
   let lastWatered;
   const msNow = new Date().getTime();
   jarArray.forEach((element) => {
@@ -322,6 +315,7 @@ function checkWaterTime() {
 //Swaps day and month to get standard GMT format instead of local time,
 //so that you can do calculations with milliseconds the right way
 function convertDate(date) {
+  console.log("convertDate() called");
   date = date.split(".");
   [date[0], date[1]] = [date[1], date[0]];
   date = date.join(".");
@@ -329,6 +323,7 @@ function convertDate(date) {
 }
 
 function growDuration() {
+  console.log("growDuration() called");
   const msNow = new Date().getTime(); //gets current time in ms
   let startTime;
   let avgGrowTime;
@@ -379,6 +374,7 @@ function growDuration() {
 }
 
 function addSeedButtons() {
+  console.log("addSeedButtons() called");
   seedArray.forEach((item) => {
     $("#seed-buttons").append(
       `<label class="btn btn-warning rounded-pill flex-grow-0 shadow-sm">
@@ -396,6 +392,7 @@ function addSeedButtons() {
 }
 
 function seedInfo() {
+  console.log("seedInfo() called");
   $("#seed-info").hide();
   let seedID = $(this).attr("id");
   let seed = seedArray.find((item) => item.name === seedID);
