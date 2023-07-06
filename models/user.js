@@ -18,7 +18,7 @@ class User {
   }
 
   async delete() {
-    await users.delete(this.username);
+    users.delete(this.username);
   }
 
   // Get user from database and update props of user instance

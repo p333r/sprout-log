@@ -78,7 +78,7 @@ a.button:hover, button:hover {
   color: white;
 }
 button.button {
-  background-color: #17FF78;
+  background-color: #1cc75c;
   margin: 10px 0;
 }
 .days-text {
@@ -141,6 +141,10 @@ td:last-child {
 }
 #seed-info {
   display: none;
+}
+#server-message {
+  letter-spacing: 1px;
+  font-size: 1.2rem;
 }
 /********* ADMIN PAGE *********/
 #add-seed-form-container {

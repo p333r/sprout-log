@@ -77,11 +77,12 @@ router.get("/", jwtAuth, async function (req, res, next) {
   }
 });
 
+// Signup and login routes
 router.get("/signup", function (req, res, next) {
   res.render("signup", {
     user: req.user,
     page: "signup",
-    message: "Already have an account? <a href='/login'>Log in</a>",
+    message: null,
     success: false,
   });
 });
@@ -90,7 +91,7 @@ router.get("/login", function (req, res, next) {
   res.render("login", {
     user: req.user,
     page: "login",
-    message: "Don't have an account? <a href='/signup'>Sign up</a>",
+    message: null,
   });
 });
 

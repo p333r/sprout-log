@@ -1,8 +1,8 @@
 async function deleteSeed() {
   if (confirm("Are you sure you want to delete all selected seeds?")) {
-    $(".form-check-input:checked").each(async function () {
+    $("#seeds-list input:checked").each(async function () {
       const seedName = $(this).attr("id");
-      $(this).parent().remove();
+      $(this).parent().parent().remove();
       await fetch(`/seeds/${seedName}`, {
         method: "DELETE",
       });
@@ -12,10 +12,10 @@ async function deleteSeed() {
 
 async function deleteUser() {
   if (confirm("Are you sure you want to delete all selected users?")) {
-    $(".form-check-input:checked").each(async function () {
+    $("#users-list input:checked").each(async function () {
       const username = $(this).attr("id");
-      $(this).parent().remove();
-      await fetch(`/users/${username}`, {
+      $(this).parent().parent().remove();
+      await fetch(`/user/${username}`, {
         method: "DELETE",
       });
     });
@@ -47,9 +47,4 @@ $(function () {
     $("#add-seed-form-container").slideDown("slow");
   });
   $("#deleteUserBtn").click(deleteUser);
-  $(".form-check").click(function () {
-    $(this)
-      .children("input")
-      .props("checked", !$(this).children("input").props("checked"));
-  });
 });
