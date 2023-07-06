@@ -124,8 +124,7 @@ form.flex-container {
 }
 /********* MISC *********/
 #logo {
-  max-width: 95px;
-  flex-grow: 2;
+  max-width: 130px;
 }
 td:first-child {
   text-align: left;
