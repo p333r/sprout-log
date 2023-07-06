@@ -16,7 +16,7 @@ body {
   user-select: none;
 }
 main {
-  margin: 50px 0px 20px;
+  margin: 50px 2px 20px;
 }
 main > h2 {
   margin-bottom: 2rem;
