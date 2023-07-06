@@ -6,6 +6,9 @@
     <main>
       <h2>Login</h2>
         <form action="/login" method="post" class="flex-container">
+          <% if (message) {%>
+            <p id="server-message"> <%= message %> </p>
+          <% } %>
           <div>
             <label for="username">Username</label><br>
             <input
@@ -29,7 +32,8 @@
             />
           </div>
           <button type="submit" class="button">Login</button>
-          <p><%- message %></p>
+          <p>Don't have an account? <a href="/signup">Sign up</a></p>
+          
         </form>
         
       </div>

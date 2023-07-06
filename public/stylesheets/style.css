@@ -145,6 +145,9 @@ td:last-child {
 #server-message {
   letter-spacing: 1px;
   font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: salmon;
 }
 /********* ADMIN PAGE *********/
 #add-seed-form-container {
