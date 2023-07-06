@@ -10,6 +10,18 @@ async function deleteSeed() {
   }
 }
 
+async function deleteUser() {
+  if (confirm("Are you sure you want to delete all selected users?")) {
+    $(".form-check-input:checked").each(async function () {
+      const username = $(this).attr("id");
+      $(this).parent().remove();
+      await fetch(`/users/${username}`, {
+        method: "DELETE",
+      });
+    });
+  }
+}
+
 function clock() {
   let d = new Date();
   let day = d.toLocaleString("en-US", {
@@ -33,5 +45,11 @@ $(function () {
   $("#deleteSeedBtn").click(deleteSeed);
   $("#addSeedBtn").click(() => {
     $("#add-seed-form-container").slideDown("slow");
+  });
+  $("#deleteUserBtn").click(deleteUser);
+  $(".form-check").click(function () {
+    $(this)
+      .children("input")
+      .props("checked", !$(this).children("input").props("checked"));
   });
 });

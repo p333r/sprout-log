@@ -5,7 +5,7 @@ const passport = require("passport");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
 const User = require("../models/user");
-const { jwtAuth } = require("../services/helpers");
+const { jwtAuth, isAdmin } = require("../services/helpers");
 
 router.get("/", jwtAuth, async function (req, res, next) {
   const user = await users.get(req.user.username);
@@ -34,6 +34,12 @@ router.post("/jars", jwtAuth, async function (req, res, next) {
   } catch (err) {
     res.redirect("/login", { error: err });
   }
+});
+
+router.delete("/:username", jwtAuth, isAdmin, async function (req, res, next) {
+  const user = new User(req.params.username);
+  await user.delete();
+  res.status(200).json({ message: `Deleted user ${req.params.username}` });
 });
 
 module.exports = router;

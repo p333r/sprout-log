@@ -23,6 +23,7 @@ router.get(
           user: req.user,
           users: allUsers,
           seeds: allSeeds,
+          page: "admin",
         });
       }
     } else {

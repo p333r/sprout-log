@@ -4,7 +4,7 @@ const CyclicDB = require("@cyclic.sh/dynamodb");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const seeds = db.collection("seeds");
 const Seed = require("../models/seed");
-const { jwtAuth } = require("../services/helpers");
+const { jwtAuth, isAdmin } = require("../services/helpers");
 
 router.get("/", async function (req, res, next) {
   const seedArray = [];
@@ -37,13 +37,5 @@ router.delete("/:name", jwtAuth, isAdmin, async function (req, res, next) {
   await seed.delete();
   res.status(200).json({ message: `Deleted seed ${req.params.name}` });
 });
-
-function isAdmin(req, res, next) {
-  if (req.user?.role === "admin") {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-}
 
 module.exports = router;
