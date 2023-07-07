@@ -228,7 +228,6 @@ function waterJar() {
       .removeClass("text-danger");
     updateJar(id);
   }
-  alertCount = 0;
 }
 
 function emptyJar() {
@@ -250,7 +249,7 @@ function updateJar(id, save = true) {
   // Update jar info in DOM and save to database if save = true
   let jar = jarArray.find((item) => item.id === id);
 
-  $("#" + id + " h3").text("🌱"+jar.seed.name);
+  $("#" + id + " h3").text("🌱" + jar.seed.name);
   if (jar.empty === false) {
     $("#" + id + " h4").html(
       `Growing for <span class="days-text">${jar.growDuration}</span>`
@@ -300,17 +299,13 @@ function checkWaterTime() {
       lastWatered = element.wateringLog[element.wateringLog.length - 1];
       lastWatered = convertDate(lastWatered);
       lastWatered = Date.parse(lastWatered);
-      if (msNow - lastWatered > msIn12h && alertCount < jarArray.length) {
-        let jarHeading =
-          element.id.slice(0, 1).toUpperCase() +
-          element.id.slice(1, 3) +
-          " " +
-          element.id.slice(3, 4);
+      if (msNow - lastWatered > msIn12h) {
+        $("#" + element.id).prepend(
+          `<div class="position-absolute top-0 start-0 m-2 p-0"><h2>❗💧</h2></div>`
+        );
         $("#" + element.id + " td:contains('Watered')")
           .next()
           .addClass("text-danger");
-        alert(`${jarHeading} needs to be watered!`);
-        alertCount++;
       }
     }
   });
