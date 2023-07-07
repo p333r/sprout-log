@@ -4,10 +4,15 @@
   <body>
     <%- include("partials/header") %>
     <main>
-      <p id="intro">
-        Track your sprouts from seed to harvest 🌱
-        Create an account or log in to continue ☀️
-      </p>
+      <div id="intro">
+        <p>
+          Track your sprouts from seed to harvest and beyond.
+          Sign up or log in to continue.
+        </p>
+        <p>
+          🌱☀️
+        </p>
+      </div>
       <h2>Login</h2>
         <form action="/login" method="post" class="flex-container">
           <% if (message) {%>
