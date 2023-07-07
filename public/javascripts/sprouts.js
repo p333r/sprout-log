@@ -89,8 +89,8 @@ function createJar(id, heading) {
     aria-label="Close">
   </button>
   <h2>${heading}</h2>
-  <progress class="jar-progress" value="0" max="100"></progress>
   <h3 class="fs-1">(empty)</h3>
+  <progress class="jar-progress" value="0" max="100"></progress>
   <h4></h4>
   <table class="table-responsive m-2">
     <tr>
@@ -250,7 +250,7 @@ function updateJar(id, save = true) {
   // Update jar info in DOM and save to database if save = true
   let jar = jarArray.find((item) => item.id === id);
 
-  $("#" + id + " h3").text(jar.seed.name);
+  $("#" + id + " h3").text("🌱"+jar.seed.name);
   if (jar.empty === false) {
     $("#" + id + " h4").html(
       `Growing for <span class="days-text">${jar.growDuration}</span>`
@@ -258,17 +258,21 @@ function updateJar(id, save = true) {
   }
   $("#" + id + " td:contains('Started')")
     .next()
-    .text(jar.fillTime);
+    .text("🚩" + jar.fillTime);
   $("#" + id + " td:contains('Watered')")
     .next()
-    .text(jar.wateringLog[jar.wateringLog.length - 1]);
+    .text("💧" + jar.wateringLog[jar.wateringLog.length - 1]);
   $("#" + id + " td:contains('Grow time')")
     .next()
-    .text(jar.seed.growTime);
+    .text("⌛" + jar.seed.growTime);
 
   if (jar.empty === true) {
     $("#" + id + " h3").text("(empty)");
+    $("#" + id + " h4").html("Add seed to start");
     $("#" + id + " td:contains('Grow time')")
+      .next()
+      .text("");
+    $("#" + id + " td:contains('Started')")
       .next()
       .text("");
     $("#" + id + " td:contains('Watered')")
