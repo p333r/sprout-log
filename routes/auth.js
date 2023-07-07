@@ -80,7 +80,7 @@ router.get("/", jwtAuth, async function (req, res, next) {
 // Signup and login routes
 router.get("/signup", function (req, res, next) {
   res.render("signup", {
-    user: req.user,
+    user: null,
     page: "signup",
     message: null,
     success: false,
@@ -89,7 +89,7 @@ router.get("/signup", function (req, res, next) {
 
 router.get("/login", function (req, res, next) {
   res.render("login", {
-    user: req.user,
+    user: null,
     page: "login",
     message: null,
   });
@@ -143,7 +143,7 @@ router.post("/signup", async function (req, res, next) {
     );
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 });
     res.render("signup", {
-      message: "User created successfully! <a href='/login'>Log in here.</a>",
+      message: null,
       success: true,
       user: null,
       page: "signup",
@@ -190,7 +190,7 @@ router.post("/login", async function (req, res, next) {
     } else {
       res.render("login", {
         message: "Invalid username or password",
-        user: user,
+        user: null,
         page: "login",
       });
     }
