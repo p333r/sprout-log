@@ -4,17 +4,35 @@
   <body>
     <%- include("partials/header") %>
     <main>
+      <p id="intro">
+        Track your sprouts from seed to harvest 🌱 Create an account or log in
+        to continue ☀️
+      </p>
       <h2>Sign Up</h2>
       <form action="/signup" method="post" class="flex-container">
+        <% if (message) {%>
+        <p id="server-message"><%= message %></p>
+        <% } %>
         <section>
-          <label for="email">Username</label><br />
+          <label for="email">Email</label><br />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            autofocus
+          />
+        </section>
+
+        <section>
+          <label for="username">Username</label><br />
           <input
             id="username"
             name="username"
             type="text"
             autocomplete="username"
             required
-            autofocus
           />
         </section>
 
@@ -40,7 +58,7 @@
           />
         </section>
         <button type="submit" class="button">Submit</button>
-        <p><%- message %> %></p>
+        <p>Already have an account? <a href="/login">Log in</a></p>
       </form>
     </main>
   </body>
