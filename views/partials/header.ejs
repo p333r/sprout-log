@@ -12,12 +12,12 @@
     <nav>
         <% if (user) {%>
           <p>Logged in as <%= user.username %></p>
-          <a href="/logout">Logout</a>
+          <a href="/logout">Log out</a>
         <% }
         if (page === "login") { %>
-          <a href="/signup">Signup</a>
+          <a href="/signup">Sign up</a>
         <% } else if (page === "signup") {%>
-          <a href="/login">Login</a>
+          <a href="/login">Log in</a>
         <% } %>
       </nav>
     </nav>
