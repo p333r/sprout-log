@@ -96,7 +96,7 @@ function createJar(id, heading) {
   <h2>${heading}</h2>
   <h3 class="fs-1">(empty)</h3>
   <progress class="jar-progress" value="0" max="100"></progress>
-  <h4></h4>
+  <h4>Add a seed to start</h4>
   <table class="table-responsive m-2">
     <tr>
       <td>Started:</td>
@@ -288,7 +288,6 @@ function updateJar(id, save = true) {
 
   if (jar.empty === true) {
     $("#" + id + " h3").text("(empty)");
-    $("#" + id + " h4").html("Add seed to start");
     $("#" + id + " td:contains('Grow time')")
       .next()
       .text("");
