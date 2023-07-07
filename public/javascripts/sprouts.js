@@ -25,7 +25,6 @@ class Jar {
 }
 
 // Global variables
-let alertCount = 0;
 const jarArray = [];
 const msIn24h = 86400000;
 const msIn12h = msIn24h / 2;
@@ -52,6 +51,7 @@ $(async function () {
   $("#hide-seeds").click(function () {
     $("#seed-container").slideUp("fast");
   });
+  console.log("App ready");
 });
 
 async function getSeeds() {
@@ -85,6 +85,7 @@ function createJar(id, heading) {
   console.log("createJar() called");
   return `
   <div id="${id}" class="card p-2 jar">
+  <div class="position-absolute top-0 start-0 m-2 p-0 jar-status"><h2></h2></div>
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
     aria-label="Close">
   </button>
@@ -248,7 +249,6 @@ function drainTime() {
 function updateJar(id, save = true) {
   // Update jar info in DOM and save to database if save = true
   let jar = jarArray.find((item) => item.id === id);
-
   $("#" + id + " h3").text("🌱" + jar.seed.name);
   if (jar.empty === false) {
     $("#" + id + " h4").html(
@@ -300,9 +300,13 @@ function checkWaterTime() {
       lastWatered = convertDate(lastWatered);
       lastWatered = Date.parse(lastWatered);
       if (msNow - lastWatered > msIn12h) {
-        $("#" + element.id).prepend(
-          `<div class="position-absolute top-0 start-0 m-2 p-0"><h2>❗💧</h2></div>`
-        );
+        let text = $("#" + element.id + " .jar-status h2").text();
+        if (text.length < 3) {
+          text += "❗💧";
+        } else {
+          text = "❗💧";
+        }
+        $("#" + element.id + " .jar-status h2").text(text);
         $("#" + element.id + " td:contains('Watered')")
           .next()
           .addClass("text-danger");
@@ -368,6 +372,10 @@ function growDuration() {
       $("#" + element.id + " h4").html(
         `Growing for <span class="days-text">${element.growDuration}</span>`
       );
+
+      if (growPercent >= 100) {
+        $("#" + element.id + " .jar-status h2").text("✅");
+      }
     }
   });
 }

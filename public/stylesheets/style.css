@@ -152,6 +152,9 @@ td:last-child {
 #intro {
   text-align: center;
 }
+.jar-status h2 {
+  font-size: 1.4rem;
+}
 /********* ADMIN PAGE *********/
 #add-seed-form-container {
   display: none;
