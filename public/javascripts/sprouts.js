@@ -85,7 +85,11 @@ function createJar(id, heading) {
   console.log("createJar() called");
   return `
   <div id="${id}" class="card p-2 jar">
-  <div class="position-absolute top-0 start-0 m-2 p-0 jar-status"><h2></h2></div>
+  <div class="position-absolute top-0 start-0 m-2 p-0 jar-status">
+    <img class="done-icon" src="/assets/012-accept.png" alt="sprouting complete icon">
+    <img class="warning-icon" src="/assets/010-exclamation.png" alt="exclamation mark icon">
+    <img class="drop-icon" src="/assets/001-drop.png" alt="drop icon">
+  </div>
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
     aria-label="Close">
   </button>
@@ -228,6 +232,8 @@ function waterJar() {
       .next()
       .removeClass("text-danger");
     updateJar(id);
+    $("#" + id + ".jar-status .drop-icon").hide();
+    $("#" + id + ".jar-status .warning-icon").hide();
   }
 }
 
@@ -257,13 +263,28 @@ function updateJar(id, save = true) {
   }
   $("#" + id + " td:contains('Started')")
     .next()
-    .text("🚩" + jar.fillTime);
+    .text(jar.fillTime);
+  $("#" + id + " td:contains('Started')")
+    .next()
+    .prepend(
+      '<img class="start-icon" src="/assets/021-flag-1_16px.png" alt="start icon">'
+    );
   $("#" + id + " td:contains('Watered')")
     .next()
-    .text("💧" + jar.wateringLog[jar.wateringLog.length - 1]);
+    .text(jar.wateringLog[jar.wateringLog.length - 1]);
+  $("#" + id + " td:contains('Watered')")
+    .next()
+    .prepend(
+      '<img class="drop-icon" src="/assets/001-drop_16px.png" alt="drop icon">'
+    );
   $("#" + id + " td:contains('Grow time')")
     .next()
-    .text("⌛" + jar.seed.growTime);
+    .text(jar.seed.growTime);
+  $("#" + id + " td:contains('Grow time')")
+    .next()
+    .prepend(
+      '<img class="hourglass-icon" src="/assets/019-hourglass-3_16px.png" alt="hourglass icon">'
+    );
 
   if (jar.empty === true) {
     $("#" + id + " h3").text("(empty)");
@@ -300,13 +321,8 @@ function checkWaterTime() {
       lastWatered = convertDate(lastWatered);
       lastWatered = Date.parse(lastWatered);
       if (msNow - lastWatered > msIn12h) {
-        let text = $("#" + element.id + " .jar-status h2").text();
-        if (text.length < 3) {
-          text += "❗💧";
-        } else {
-          text = "❗💧";
-        }
-        $("#" + element.id + " .jar-status h2").text(text);
+        $("#" + element.id + " .warning-icon").show();
+        $("#" + element.id + " .drop-icon").show();
         $("#" + element.id + " td:contains('Watered')")
           .next()
           .addClass("text-danger");
@@ -374,7 +390,7 @@ function growDuration() {
       );
 
       if (growPercent >= 100) {
-        $("#" + element.id + " .jar-status h2").text("✅");
+        $("#" + element.id + " .done-icon").show();
       }
     }
   });
