@@ -86,9 +86,9 @@ function createJar(id, heading) {
   return `
   <div id="${id}" class="card p-2 jar">
   <div class="position-absolute top-0 start-0 m-2 p-0 jar-status">
-    <img class="done-icon" src="/assets/012-accept.png" alt="sprouting complete icon">
-    <img class="warning-icon" src="/assets/010-exclamation.png" alt="exclamation mark icon">
-    <img class="drop-icon" src="/assets/001-drop.png" alt="drop icon">
+    <img class="done-icon" src="/assets/accept.svg" alt="sprouting complete icon">
+    <img class="warning-icon" src="/assets/exclamation.svg" alt="exclamation mark icon">
+    <img class="drop-icon" src="/assets/drop.svg" alt="drop icon">
   </div>
   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
     aria-label="Close">
@@ -255,7 +255,8 @@ function drainTime() {
 function updateJar(id, save = true) {
   // Update jar info in DOM and save to database if save = true
   let jar = jarArray.find((item) => item.id === id);
-  $("#" + id + " h3").text("🌱" + jar.seed.name);
+  $("#" + id + " h3").text(jar.seed.name);
+  $("#" + id + " h3").append("<img src='/assets/plant.svg' alt='plant icon'>");
   if (jar.empty === false) {
     $("#" + id + " h4").html(
       `Growing for <span class="days-text">${jar.growDuration}</span>`
@@ -267,23 +268,21 @@ function updateJar(id, save = true) {
   $("#" + id + " td:contains('Started')")
     .next()
     .prepend(
-      '<img class="start-icon" src="/assets/021-flag-1_16px.png" alt="start icon">'
+      '<img class="start-icon" src="/assets/flag.svg" alt="start icon">'
     );
   $("#" + id + " td:contains('Watered')")
     .next()
     .text(jar.wateringLog[jar.wateringLog.length - 1]);
   $("#" + id + " td:contains('Watered')")
     .next()
-    .prepend(
-      '<img class="drop-icon" src="/assets/001-drop_16px.png" alt="drop icon">'
-    );
+    .prepend('<img class="drop-icon" src="/assets/drop.svg" alt="drop icon">');
   $("#" + id + " td:contains('Grow time')")
     .next()
     .text(jar.seed.growTime);
   $("#" + id + " td:contains('Grow time')")
     .next()
     .prepend(
-      '<img class="hourglass-icon" src="/assets/019-hourglass-3_16px.png" alt="hourglass icon">'
+      '<img class="hourglass-icon" src="/assets/hourglass.svg" alt="hourglass icon">'
     );
 
   if (jar.empty === true) {
