@@ -8,6 +8,17 @@
 /* 7. MEDIA QUERIES */
 
 /********* GENERIC *********/
+:root {
+  --color-primary: #1cc75c;
+  --color-secondary: #68daf8;
+  --color-tertiary: #17ff78;
+  --color-text: #575757;
+  --color-text-light: #b3b3b3;
+  --color-text-dark: #1a1a1a;
+  --color-background: #f2f2f2;
+  --color-background-dark: #e6e6e6;
+  --color-background-light: #ffffff;
+}
 body {
   color: black;
   font-size: 1.1rem;
@@ -163,6 +174,7 @@ td img {
 }
 #intro {
   text-align: center;
+  margin: 0 5px 16px;
 }
 /********* ADMIN PAGE *********/
 #add-seed-form-container {
