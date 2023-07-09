@@ -199,6 +199,7 @@ async function checkDatabase() {
 }
 
 function fillJar() {
+  console.log("fillJar() called");
   $("#seed-container").slideUp(); // Hide seed buttons
   if (typeof $("input:checked").val() !== "undefined") {
     let value = $("input:checked").val();
@@ -224,6 +225,7 @@ function fillJar() {
 }
 
 function waterJar() {
+  console.log("waterJar() called");
   let id = $(this).parent().parent("div").attr("id");
   let jar = jarArray.find((item) => item.id === id);
   if (jar.empty === false) {
@@ -231,13 +233,14 @@ function waterJar() {
     $("#" + id + " td:contains('Watered')")
       .next()
       .removeClass("text-danger");
-    updateJar(id);
     $("#" + id + ".jar-status .drop-icon").hide();
     $("#" + id + ".jar-status .warning-icon").hide();
+    updateJar(id);
   }
 }
 
 function emptyJar() {
+  console.log("emptyJar() called");
   let id = $(this).parent().parent("div").attr("id");
   let jar = jarArray.find((item) => item.id === id);
   if (jar.empty === false) {
@@ -249,15 +252,21 @@ function emptyJar() {
 }
 
 function drainTime() {
+  console.log("drainTime() called");
   return this.seed.soakTime;
 }
 
 function updateJar(id, save = true) {
+  console.log("updateJar() called");
   // Update jar info in DOM and save to database if save = true
   let jar = jarArray.find((item) => item.id === id);
   $("#" + id + " h3").text(jar.seed.name);
   $("#" + id + " h3").append("<img src='/assets/plant.svg' alt='plant icon'>");
   if (jar.empty === false) {
+    $("#" + id + " .jar-status").html(`
+    <img class="done-icon" src="/assets/accept.svg" alt="sprouting complete icon">
+    <img class="warning-icon" src="/assets/exclamation.svg" alt="exclamation mark icon">
+    <img class="drop-icon" src="/assets/drop.svg" alt="drop icon">`);
     $("#" + id + " h4").html(
       `Growing for <span class="days-text">${jar.growDuration}</span>`
     );
