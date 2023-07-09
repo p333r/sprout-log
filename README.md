@@ -3,7 +3,7 @@
 A simple app for tracking your sprouts journey from seed to harvest. In development.
 
 Buildt with:
-- Node.js
+- Node.js / Express
 - DynamoDB (Cyclic.sh)
 - Passport
 - HTML
