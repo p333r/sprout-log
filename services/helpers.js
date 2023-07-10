@@ -1,5 +1,6 @@
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
+const crypto = require("crypto");
 
 const jwtAuth = passport.authenticate("jwt", {
   session: false,
@@ -14,7 +15,15 @@ function isAdmin(req, res, next) {
   }
 }
 
+function generateRandomGuestId(length) {
+  const bytes = Math.ceil(length / 2);
+  const randomBytes = crypto.randomBytes(bytes);
+  const hexValue = randomBytes.toString("hex");
+  return "Guest-" + hexValue.slice(0, length);
+}
+
 module.exports = {
   jwtAuth,
   isAdmin,
+  generateRandomGuestId,
 };

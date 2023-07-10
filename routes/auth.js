@@ -7,7 +7,15 @@ const jwt = require("jsonwebtoken");
 const CyclicDB = require("@cyclic.sh/dynamodb");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
-const { jwtAuth } = require("../services/helpers");
+const User = require("../models/User");
+const { jwtAuth, generateRandomGuestId } = require("../services/helpers");
+const { rateLimit } = require("express-rate-limit");
+
+// Rate limit login attempts
+const limit = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+});
 
 // Create admin user if not exists
 users
@@ -87,6 +95,7 @@ router.get("/signup", function (req, res, next) {
   });
 });
 
+// Login page
 router.get("/login", function (req, res, next) {
   res.render("login", {
     user: null,
@@ -95,10 +104,38 @@ router.get("/login", function (req, res, next) {
   });
 });
 
-// Register new user
-router.post("/signup", async function (req, res, next) {
-  const { username, password, confirm } = req.body;
+// Guest login
+router.get("/login/guest", limit, async function (req, res, next) {
+  const id = generateRandomGuestId(3);
+  const exists = await users.get(id);
+  if (!exists) {
+    try {
+      const user = new User(id, null, [], "guest");
+      user.save();
+      const token = jwt.sign(
+        { username: id, role: "guest" },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "365 days",
+        }
+      );
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+      });
+      res.redirect("/");
+    } catch (err) {
+      console.info(err);
+    }
+  } else {
+    console.info("User already exists");
+    res.redirect("/login/guest");
+  }
+});
 
+// Register new user
+router.post("/signup", limit, async function (req, res, next) {
+  const { username, password, confirm } = req.body;
   if (password !== confirm) {
     return res.render("signup", {
       message: "Passwords do not match. Please try again.",
@@ -109,8 +146,8 @@ router.post("/signup", async function (req, res, next) {
   }
 
   try {
-    const user = await users.get(username);
-    if (user) {
+    const exists = await users.get(username);
+    if (exists) {
       return res.render("signup", {
         message: "Sorry. That username already exists. Please try again.",
         user: null,
@@ -119,7 +156,9 @@ router.post("/signup", async function (req, res, next) {
       });
     }
 
-    bcrypt.hash(password, 10, function (err, hash) {
+    let user;
+
+    bcrypt.hash(password, 10, async function (err, hash) {
       if (err) {
         console.info(err);
         return res.render("signup", {
@@ -129,24 +168,19 @@ router.post("/signup", async function (req, res, next) {
           page: "signup",
         });
       }
-
-      users.set(username, {
-        passwordHash: hash,
-        jars: [],
-        role: "user",
+      user = new User(username, hash, [], "user");
+      await user.save();
+      const token = jwt.sign(
+        { username: username, role: "user" },
+        process.env.JWT_SECRET,
+        { expiresIn: "60 days" }
+      );
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 60,
       });
-    });
-    const token = jwt.sign(
-      { username: username, role: "user" },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
-    res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 });
-    res.render("signup", {
-      message: null,
-      success: true,
-      user: null,
-      page: "signup",
+      res.status(201);
+      res.redirect("/");
     });
   } catch (err) {
     console.info(err);
@@ -155,7 +189,7 @@ router.post("/signup", async function (req, res, next) {
 });
 
 // Login user
-router.post("/login", async function (req, res, next) {
+router.post("/login", limit, async function (req, res, next) {
   const { username, password } = req.body;
   //TODO: Add verification for username and password
   const user = await users.get(username).then((user) => user?.props);
@@ -179,12 +213,12 @@ router.post("/login", async function (req, res, next) {
       const token = jwt.sign(
         { username: username, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: "24h" }
+        { expiresIn: "60 days" }
       );
 
       res.cookie("jwt", token, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24 * 60,
       });
       res.redirect("/");
     } else {
