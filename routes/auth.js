@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const CyclicDB = require("@cyclic.sh/dynamodb");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
-const User = require("../models/User");
+const User = require("../models/user");
 const { jwtAuth, generateRandomGuestId } = require("../services/helpers");
 const { rateLimit } = require("express-rate-limit");
 
