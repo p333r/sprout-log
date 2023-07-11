@@ -36,9 +36,13 @@ router.post("/jars", jwtAuth, async function (req, res, next) {
 });
 
 router.delete("/:username", jwtAuth, isAdmin, async function (req, res, next) {
-  const user = new User(req.params.username);
-  await user.delete();
-  res.status(200).json({ message: `Deleted user ${req.params.username}` });
+  try {
+    const user = new User(req.params.username);
+    await user.delete();
+    res.status(200).json({ message: `Deleted user` });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
 
 module.exports = router;
