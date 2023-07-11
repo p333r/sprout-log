@@ -107,17 +107,21 @@ router.get("/login", function (req, res, next) {
 
 // Guest login
 router.get("/login/guest", limit, async function (req, res, next) {
+  const token = cookieJwtExtractor(req);
+  if (token) {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded.role === "guest") {
+      return res.redirect("/");
+    }
+  }
   const id = generateRandomGuestId(3);
   const exists = await users.get(id);
   if (!exists) {
     try {
-      const jars = demoJars();
-      const user = new User(id, null, jars, "guest");
-      console.log(user);
+      const user = new User(id, null, demoJars(), "guest");
       await user.save();
       await user.get();
-      console.log(user);
-      console.log("Guest user created");
+      console.info("Guest user created");
       const token = jwt.sign(
         { username: id, role: "guest" },
         process.env.JWT_SECRET,

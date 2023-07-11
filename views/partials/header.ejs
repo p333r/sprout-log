@@ -7,12 +7,18 @@
       <p id="clock"></p>
     </div>
     <div>
-      <img id="logo" src="/assets/color-logo-no-background-v8.svg" alt="" />
+      <a href="/">
+        <img id="logo" src="/assets/color-logo-no-background-v8.svg" alt="" />
+      </a>
     </div>
     <nav>
         <% if (user) {%>
-          <p>Logged in as <%= user.username %></p>
+          <p><%= user.username %></p>
+          <% if (user.role !== "guest") {%>
           <a href="/logout">Log out</a>
+          <% } else if (user.role === "guest") {%>
+          <a href="/signup">Sign up</a>
+          <% } %>
         <% }
         if (page === "login") { %>
           <a href="/signup">Sign up</a>
