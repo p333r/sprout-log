@@ -1,4 +1,4 @@
-﻿# Sprout-app
+﻿# Sprout Log
 
 A webapp / PWA for tracking your sprouts journey from seed to harvest. In development.
 
