@@ -8,7 +8,9 @@
       <div class="admin-content row">
         <div class="col-lg-6 mt-4">
           <div>
-            <h2 class="text-center">Seeds</h2>
+            <h2>
+              Seeds <span class="badge bg-secondary"><%= seeds.length %></span>
+            </h2>
             <ul class="text-dark list-group text-center" id="seeds-list">
               <% function deleteSeed() { window.alert("deleted")}
               seeds.forEach((seed) => { %>
@@ -108,9 +110,12 @@
           </div>
         </div>
 
-        <div class="col-lg-6 text-center mt-4">
-          <h2>Users</h2>
-          <ul class="text-dark list-group" id="users-list">
+        <div class="col-lg-6 mt-4">
+          <h2>
+            Users <span class="badge bg-secondary"><%= users.length %></span>
+          </h2>
+
+          <ul class="text-dark text-center list-group" id="users-list">
             <% users.forEach((user) => { %>
             <li class="list-group-item">
               <div class="form-check">
