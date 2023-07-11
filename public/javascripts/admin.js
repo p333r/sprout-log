@@ -18,6 +18,9 @@ async function deleteUser() {
       await fetch(`/user/${username}`, {
         method: "DELETE",
       });
+      let num = $("h2:contains('Users') span").text();
+      num = parseInt(num) - 1;
+      $("h2:contains('Users') span").text(num);
     });
   }
 }
