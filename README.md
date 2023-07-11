@@ -15,8 +15,18 @@ A webapp / PWA for tracking your sprouts journey from seed to harvest. In develo
 - Node.js / Express
 - EJS
 - DynamoDB (Cyclic.sh)
-- Passport
 - HTML
 - CSS
 - jQuery
 - Bootstrap
+
+## Live preview:
+
+For a live preview of the app go to:
+https://sproutlog.cyclic.app/login/guest
+
+## Planned features:
+
+- Email registration
+- Password reset link
+- Sprouting history/log
