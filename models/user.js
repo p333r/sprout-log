@@ -8,12 +8,16 @@ class User {
     this.passwordHash = passwordHash;
     this.jars = jars;
     this.role = role;
+    this.updated = "";
+    this.created = "";
+    this.postRequests = 0;
   }
   async save() {
     await users.set(this.username, {
       passwordHash: this.passwordHash,
       jars: this.jars,
       role: this.role,
+      postRequests: this.postRequests,
     });
   }
 
@@ -23,13 +27,15 @@ class User {
 
   // Get user from database and update props of user instance
   async get() {
-    const { passwordHash, jars, role } = await users
-      .get(this.username)
-      .then((user) => user.props);
+    const { passwordHash, jars, role, updated, created, postRequests } =
+      await users.get(this.username).then((user) => user.props);
 
     this.passwordHash = passwordHash;
     this.jars = jars;
     this.role = role;
+    this.updated = updated;
+    this.created = created;
+    this.postRequests = postRequests || 0;
   }
 }
 

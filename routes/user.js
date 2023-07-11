@@ -28,6 +28,7 @@ router.post("/jars", jwtAuth, async function (req, res, next) {
     const user = new User(username);
     await user.get();
     user.jars = jars;
+    user.postRequests++;
     await user.save();
     res.status(201).json({ message: "Jars updated" });
   } catch (err) {
