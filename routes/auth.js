@@ -10,6 +10,7 @@ const users = db.collection("users");
 const User = require("../models/user");
 const { jwtAuth, generateRandomGuestId } = require("../services/helpers");
 const { rateLimit } = require("express-rate-limit");
+const demoJars = require("../services/demoJars");
 
 // Rate limit login attempts
 const limit = rateLimit({
@@ -110,8 +111,13 @@ router.get("/login/guest", limit, async function (req, res, next) {
   const exists = await users.get(id);
   if (!exists) {
     try {
-      const user = new User(id, null, [], "guest");
-      user.save();
+      const jars = demoJars();
+      const user = new User(id, null, jars, "guest");
+      console.log(user);
+      await user.save();
+      await user.get();
+      console.log(user);
+      console.log("Guest user created");
       const token = jwt.sign(
         { username: id, role: "guest" },
         process.env.JWT_SECRET,
