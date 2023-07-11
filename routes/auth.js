@@ -15,7 +15,7 @@ const demoJars = require("../services/demoJars");
 // Rate limit login attempts
 const limit = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 5,
+  max: 20,
 });
 
 // Create admin user if not exists
