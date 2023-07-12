@@ -202,6 +202,7 @@ router.post("/signup", limit, async function (req, res, next) {
 router.post("/login", limit, async function (req, res, next) {
   const { username, password } = req.body;
   //TODO: Add verification for username and password
+  
   const user = await users.get(username).then((user) => user?.props);
   if (!user) {
     return res.render("login", {
