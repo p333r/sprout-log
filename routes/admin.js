@@ -23,6 +23,7 @@ router.get(
             await user.get();
             const dateTime = new Date(user.updated);
             user.updated = dateTime.toLocaleString("no-NO", {
+              timeZone: "Europe/Oslo",
               dateStyle: "short",
               timeStyle: "short",
             });
