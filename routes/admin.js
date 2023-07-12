@@ -22,15 +22,15 @@ router.get(
             let user = new User(item.key);
             await user.get();
             const dateTime = new Date(user.updated);
-            user.updated = dateTime.toLocaleString("no-NO", { dateStyle: "short", timeStyle: "short" });
+            user.updated = dateTime.toLocaleString("no-NO", {
+              dateStyle: "short",
+              timeStyle: "short",
+            });
             item.updated = user.updated;
             item.postRequests = user.postRequests;
             return item;
           })
         );
-
-        console.table(usersArray);
-
         res.render("admin", {
           title: "Admin Page",
           user: req.user,
