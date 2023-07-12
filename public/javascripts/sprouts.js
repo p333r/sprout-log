@@ -41,14 +41,14 @@ $(async function () {
   checkWaterTime();
   setInterval(checkWaterTime, 900000); // Check every 15 minutes
   setInterval(growDuration, 900000); // Check every 15 minutes
-  $("button:contains('Add seed')").click(showSeedButtons);
-  $("button:contains('Water')").click(waterJar);
-  $("button:contains('Empty')").click(emptyJar);
-  $("button:contains('Add jar')").click(addJar);
-  $("button.btn-close").click(removeJar);
-  $("#seed-buttons input").click(seedInfo);
-  $("#add-seed").click(fillJar);
-  $("#hide-seeds").click(function () {
+  $("button:contains('Add seed')").on("click", showSeedButtons);
+  $("button:contains('Water')").on("click", waterJar);
+  $("button:contains('Empty')").on("click", emptyJar);
+  $("button:contains('Add jar')").on("click", addJar);
+  $("button.btn-close").on("click", removeJar);
+  $("#seed-buttons input").on("click", seedInfo);
+  $("#add-seed").on("click", fillJar);
+  $("#hide-seeds").on("click", function () {
     $("#seed-container").slideUp("fast");
   });
   console.log("App ready");
@@ -135,10 +135,10 @@ function addJar() {
   let jarHtml = createJar(jar.id, jarHeading);
 
   $("#jar-container").append(jarHtml);
-  $("#" + jar.id + " button.btn-close").click(removeJar);
-  $("#" + jar.id + " button:contains('Add seed')").click(showSeedButtons);
-  $("#" + jar.id + " button:contains('Water')").click(waterJar);
-  $("#" + jar.id + " button:contains('Empty')").click(emptyJar);
+  $("#" + jar.id + " button.btn-close").on("click", removeJar);
+  $("#" + jar.id + " button:contains('Add seed')").on("click", showSeedButtons);
+  $("#" + jar.id + " button:contains('Water')").on("click", waterJar);
+  $("#" + jar.id + " button:contains('Empty')").on("click", emptyJar);
 }
 
 function showSeedButtons() {
