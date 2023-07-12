@@ -4,9 +4,8 @@ const CyclicDB = require("@cyclic.sh/dynamodb");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
 const seeds = db.collection("seeds");
-const bcrypt = require("bcrypt");
-const { all } = require("./auth");
 const passport = require("passport");
+const User = require("../models/user");
 
 // Admin page
 router.get(
@@ -18,10 +17,24 @@ router.get(
       async function getData() {
         const allUsers = await users.list().then((data) => data.results);
         const allSeeds = await seeds.list().then((data) => data.results);
+        const usersArray = await Promise.all(
+          allUsers.map(async (item) => {
+            let user = new User(item.key);
+            await user.get();
+            const dateTime = new Date(user.updated);
+            user.updated = dateTime.toLocaleString("no-NO", { dateStyle: "short", timeStyle: "short" });
+            item.updated = user.updated;
+            item.postRequests = user.postRequests;
+            return item;
+          })
+        );
+
+        console.table(usersArray);
+
         res.render("admin", {
           title: "Admin Page",
           user: req.user,
-          users: allUsers,
+          users: usersArray,
           seeds: allSeeds,
           page: "admin",
         });

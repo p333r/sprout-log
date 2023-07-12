@@ -126,7 +126,8 @@
                   id="<%= user.key %>"
                 />
                 <label class="form-check-label" for="<%= user.key %>">
-                  <%= user.key %>
+                  <%= user.key + " | " + user.updated + " | " + "POST/jars: " +
+                  user.postRequests %>
                 </label>
               </div>
             </li>
