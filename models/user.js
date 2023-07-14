@@ -10,6 +10,7 @@ class User {
     this.role = role;
     this.updated = "";
     this.created = "";
+    this.country = "";
     this.postRequests = 0;
   }
   async save() {
@@ -17,6 +18,7 @@ class User {
       passwordHash: this.passwordHash,
       jars: this.jars,
       role: this.role,
+      country: this.country,
       postRequests: this.postRequests,
     });
   }
@@ -35,6 +37,7 @@ class User {
     this.role = role;
     this.updated = updated;
     this.created = created;
+    this.country = country;
     this.postRequests = postRequests || 0;
   }
 }

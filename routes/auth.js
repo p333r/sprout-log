@@ -8,10 +8,13 @@ const CyclicDB = require("@cyclic.sh/dynamodb");
 const db = CyclicDB(process.env.CYCLIC_DB);
 const users = db.collection("users");
 const User = require("../models/user");
-const { jwtAuth, generateRandomGuestId } = require("../services/helpers");
+const {
+  jwtAuth,
+  generateRandomGuestId,
+  getCountry,
+} = require("../services/helpers");
 const { rateLimit } = require("express-rate-limit");
 const demoJars = require("../services/demoJars");
-const geoip = require("geoip-country");
 
 // Rate limit login attempts
 const limit = rateLimit({
@@ -75,6 +78,7 @@ passport.use(
   })
 );
 
+// Home page
 router.get("/", jwtAuth, async function (req, res, next) {
   const role = req.user.role;
   if (role === "admin") {
@@ -99,9 +103,6 @@ router.get("/signup", function (req, res, next) {
 
 // Login page
 router.get("/login", function (req, res, next) {
-  const ip = req.ip;
-  const geo = geoip.lookup(ip);
-  console.info("Login attempt from " + ip + " (" + geo.country + ")");
   res.render("login", {
     user: null,
     page: "login",
@@ -123,6 +124,7 @@ router.get("/login/guest", limit, async function (req, res, next) {
   if (!exists) {
     try {
       const user = new User(id, null, demoJars(), "guest");
+      user.country = getCountry(req);
       await user.save();
       await user.get();
       console.info("Guest user created");

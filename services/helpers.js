@@ -1,6 +1,7 @@
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const crypto = require("crypto");
+const geoip = require("geoip-country");
 
 const jwtAuth = passport.authenticate("jwt", {
   session: false,
@@ -22,8 +23,14 @@ function generateRandomGuestId(length) {
   return "Guest-" + hexValue.slice(0, length);
 }
 
+function getCountry(req) {
+  const ip = req.ip;
+  return geoip.lookup(ip);
+}
+
 module.exports = {
   jwtAuth,
   isAdmin,
   generateRandomGuestId,
+  getCountry,
 };
