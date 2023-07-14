@@ -99,7 +99,9 @@ router.get("/signup", function (req, res, next) {
 // Login page
 router.get("/login", function (req, res, next) {
   const ip = req.ip;
-  console.table(ip);
+  console.log(ip);
+  res.send(ip);
+  return;
   res.render("login", {
     user: null,
     page: "login",
