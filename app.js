@@ -11,7 +11,7 @@ const authRouter = require("./routes/auth");
 const adminRouter = require("./routes/admin");
 
 const app = express();
-app.set("trust proxy", 1);
+app.set("trust proxy", 1); // trust first proxy for rate limiting login attempts and cookie security (https)
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

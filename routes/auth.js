@@ -11,6 +11,7 @@ const User = require("../models/user");
 const { jwtAuth, generateRandomGuestId } = require("../services/helpers");
 const { rateLimit } = require("express-rate-limit");
 const demoJars = require("../services/demoJars");
+const geoip = require("geoip-country");
 
 // Rate limit login attempts
 const limit = rateLimit({
@@ -99,9 +100,8 @@ router.get("/signup", function (req, res, next) {
 // Login page
 router.get("/login", function (req, res, next) {
   const ip = req.ip;
-  console.log(ip);
-  res.send(ip);
-  return;
+  const geo = geoip.lookup(ip);
+  console.info("Login attempt from " + ip + " (" + geo.country + ")");
   res.render("login", {
     user: null,
     page: "login",
