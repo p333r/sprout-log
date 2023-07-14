@@ -29,7 +29,7 @@ class User {
 
   // Get user from database and update props of user instance
   async get() {
-    const { passwordHash, jars, role, updated, created, postRequests } =
+    const { passwordHash, jars, role, updated, created, country, postRequests } =
       await users.get(this.username).then((user) => user.props);
 
     this.passwordHash = passwordHash;
