@@ -28,6 +28,7 @@ router.get(
               timeStyle: "short",
             });
             item.updated = user.updated;
+            item.country = user.country;
             item.postRequests = user.postRequests;
             return item;
           })
