@@ -128,6 +128,7 @@ router.get("/login/guest", limit, async function (req, res, next) {
     try {
       const user = new User(id, null, demoJars(), "guest");
       user.country = getCountry(req);
+      console.info(user.country);
       await user.save();
       await user.get();
       console.info("Guest user created");
