@@ -80,6 +80,13 @@ passport.use(
 
 // Home page
 router.get("/", jwtAuth, async function (req, res, next) {
+  // TODO: Remove after a while //////////////////////////////
+  const user = new User(req.user.username);
+  await user.get();
+  user.country = getCountry(req);
+  await user.save();
+  //////////////////////////////
+
   const role = req.user.role;
   if (role === "admin") {
     res.redirect("/admin");
