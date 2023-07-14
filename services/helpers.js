@@ -25,7 +25,8 @@ function generateRandomGuestId(length) {
 
 function getCountry(req) {
   const ip = req.ip;
-  return geoip.lookup(ip);
+  const geo = geoip.lookup(ip);
+  return geo?.country;
 }
 
 module.exports = {

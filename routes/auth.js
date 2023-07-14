@@ -80,6 +80,9 @@ passport.use(
 
 // Home page
 router.get("/", jwtAuth, async function (req, res, next) {
+  const user = new User(req.user.username);
+  await user.get();
+  user?.country = getCountry(req);
   const role = req.user.role;
   if (role === "admin") {
     res.redirect("/admin");
