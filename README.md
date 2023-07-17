@@ -20,11 +20,6 @@ A webapp / PWA for tracking your sprouts journey from seed to harvest. In develo
 - jQuery
 - Bootstrap
 
-## Live preview:
-
-For a live preview of the app go to:
-https://sproutlog.cyclic.app/login/guest
-
 ## Planned features:
 
 - Email registration
