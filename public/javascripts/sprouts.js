@@ -293,9 +293,11 @@ function updateJar(id, save = true) {
     .prepend(
       '<img class="hourglass-icon" src="/assets/hourglass.svg" alt="hourglass icon">'
     );
+  growDuration();
 
   if (jar.empty === true) {
     $("#" + id + " h3").text("(empty)");
+    $("#" + id + " h4").text("Add a seed to start");
     $("#" + id + " td:contains('Grow time')")
       .next()
       .text("");
