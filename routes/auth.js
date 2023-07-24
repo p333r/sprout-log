@@ -80,7 +80,7 @@ passport.use(
 
 // Home page
 router.get("/", jwtAuth, async function (req, res, next) {
-  // TODO: Remove after a while //////////////////////////////
+  // TODO: Remove after a while ////////////////////////////// (updates country for all users)
   const user = new User(req.user.username);
   await user.get();
   user.country = getCountry(req);

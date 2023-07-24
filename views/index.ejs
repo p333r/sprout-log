@@ -4,6 +4,9 @@
   <body>
     <%- include("partials/header") %>
     <script src="/javascripts/sprouts.js" defer></script>
+    <script>
+      navigator.serviceWorker.register("sw.js");
+    </script>
     <main class="d-flex flex-column align-items-center mt-2">
       <h2>My jars</h2>
       <div id="counter" class="text-center">
