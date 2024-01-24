@@ -1,6 +1,6 @@
 {
   "name": "spire-app-nodejs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -9,26 +9,26 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@cyclic.sh/dynamodb": "^0.0.34",
+    "@cyclic.sh/dynamodb": "^0.0.35",
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.6",
     "debug": "~4.3.4",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "express-rate-limit": "^6.7.1",
+    "express-rate-limit": "^7.1.5",
     "geoip-country": "^4.2.4",
     "http-errors": "~2.0.0",
     "jsend": "^1.1.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "~1.10.0",
-    "passport": "^0.6.0",
+    "passport": "^0.7.0",
     "passport-jwt": "^4.0.1"
   },
   "devDependencies": {
     "jquery": "^3.7.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
-    "vitest": "^0.33.0"
+    "vitest": "^1.2.1"
   }
 }
