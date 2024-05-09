@@ -215,7 +215,7 @@ router.get("/login", function (req, res, next) {
 //   }
 // });
 
-Login user
+// Login user
 router.post("/login", limit, async function (req, res, next) {
   const { username, password } = req.body;
   //TODO: Add verification for username and password
