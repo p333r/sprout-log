@@ -117,47 +117,47 @@ router.get("/login", function (req, res, next) {
   });
 });
 
-// Guest login
-router.get("/login/guest", limit, async function (req, res, next) {
-  const token = cookieJwtExtractor(req);
-  if (token) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role === "guest") {
-      return res.redirect("/");
-    }
-  }
-  const id = generateRandomGuestId(3);
-  const exists = await users.get(id);
-  if (!exists) {
-    try {
-      const user = new User(id, null, demoJars(), "guest");
-      user.country = getCountry(req);
-      console.info(user.country);
-      await user.save();
-      await user.get();
-      console.info("Guest user created");
-      const token = jwt.sign(
-        { username: id, role: "guest" },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "365 days",
-        }
-      );
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 365,
-      });
-      res.redirect("/");
-    } catch (err) {
-      console.info(err);
-    }
-  } else {
-    console.info("User already exists");
-    res.redirect("/login/guest");
-  }
-});
+//TODO: Temporarily disabled guest login and signup
 
-//TODO: Temporarily removed signup and login routes
+// Guest login
+// router.get("/login/guest", limit, async function (req, res, next) {
+//   const token = cookieJwtExtractor(req);
+//   if (token) {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     if (decoded.role === "guest") {
+//       return res.redirect("/");
+//     }
+//   }
+//   const id = generateRandomGuestId(3);
+//   const exists = await users.get(id);
+//   if (!exists) {
+//     try {
+//       const user = new User(id, null, demoJars(), "guest");
+//       user.country = getCountry(req);
+//       console.info(user.country);
+//       await user.save();
+//       await user.get();
+//       console.info("Guest user created");
+//       const token = jwt.sign(
+//         { username: id, role: "guest" },
+//         process.env.JWT_SECRET,
+//         {
+//           expiresIn: "365 days",
+//         }
+//       );
+//       res.cookie("jwt", token, {
+//         httpOnly: true,
+//         maxAge: 1000 * 60 * 60 * 24 * 365,
+//       });
+//       res.redirect("/");
+//     } catch (err) {
+//       console.info(err);
+//     }
+//   } else {
+//     console.info("User already exists");
+//     res.redirect("/login/guest");
+//   }
+// });
 
 // Register new user
 // router.post("/signup", limit, async function (req, res, next) {
@@ -215,51 +215,51 @@ router.get("/login/guest", limit, async function (req, res, next) {
 //   }
 // });
 
-// Login user
-// router.post("/login", limit, async function (req, res, next) {
-//   const { username, password } = req.body;
-//   //TODO: Add verification for username and password
+Login user
+router.post("/login", limit, async function (req, res, next) {
+  const { username, password } = req.body;
+  //TODO: Add verification for username and password
 
-//   const user = await users.get(username).then((user) => user?.props);
-//   if (!user) {
-//     return res.render("login", {
-//       message: "Invalid username or password",
-//       user: null,
-//       page: "login",
-//     });
-//   }
-//   bcrypt.compare(password, user.passwordHash, function (err, result) {
-//     if (err) {
-//       console.info(err);
-//       return res.render("login", {
-//         message: "Sorry. Something went wrong. Please try again.",
-//         user: null,
-//         page: "login",
-//       });
-//     }
-//     if (result) {
-//       const token = jwt.sign(
-//         { username: username, role: user.role },
-//         process.env.JWT_SECRET,
-//         { expiresIn: "60 days" }
-//       );
+  const user = await users.get(username).then((user) => user?.props);
+  if (!user) {
+    return res.render("login", {
+      message: "Invalid username or password",
+      user: null,
+      page: "login",
+    });
+  }
+  bcrypt.compare(password, user.passwordHash, function (err, result) {
+    if (err) {
+      console.info(err);
+      return res.render("login", {
+        message: "Sorry. Something went wrong. Please try again.",
+        user: null,
+        page: "login",
+      });
+    }
+    if (result) {
+      const token = jwt.sign(
+        { username: username, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: "60 days" }
+      );
 
-//       res.cookie("jwt", token, {
-//         httpOnly: true,
-//         maxAge: 1000 * 60 * 60 * 24 * 60,
-//       });
-//       res.redirect("/");
-//     } else {
-//       res.render("login", {
-//         message: "Invalid username or password",
-//         user: null,
-//         page: "login",
-//       });
-//     }
-//   });
-// });
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 60,
+      });
+      res.redirect("/");
+    } else {
+      res.render("login", {
+        message: "Invalid username or password",
+        user: null,
+        page: "login",
+      });
+    }
+  });
+});
 
-// Logut user
+// Logout user
 // TODO: Add jwt blacklist to db
 router.get("/logout", function (req, res) {
   res.cookie("jwt", "", { maxAge: 1 });
