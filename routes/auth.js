@@ -157,7 +157,7 @@ router.get("/login/guest", limit, async function (req, res, next) {
   }
 });
 
-TODO: Temporarily removed signup and login routes
+//TODO: Temporarily removed signup and login routes
 
 // Register new user
 // router.post("/signup", limit, async function (req, res, next) {
